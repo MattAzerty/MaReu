@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_filter_page_rootview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00FF0000"
+    android:gravity="center">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/fragment_filter_page_CardView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        app:strokeWidth="8dp"
+        app:strokeColor="#FF4081"
+        app:cardBackgroundColor="@color/cetagory_item_bg_01"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp">
+
+    </com.google.android.material.card.MaterialCardView>
+
+</RelativeLayout>

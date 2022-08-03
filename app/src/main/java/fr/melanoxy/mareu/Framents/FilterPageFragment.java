@@ -2,6 +2,7 @@ package fr.melanoxy.mareu.Framents;
 
 import android.os.Bundle;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -12,19 +13,26 @@ import fr.melanoxy.mareu.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link NewsPageFragment#newInstance} factory method to
+ * Use the {@link FilterPageFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class NewsPageFragment extends Fragment {
+public class FilterPageFragment extends Fragment {
 
-    public static NewsPageFragment newInstance() {
-        return (new NewsPageFragment());
+    public static FilterPageFragment newInstance() {
+        return (new FilterPageFragment());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_news_page, container, false);
+        return inflater.inflate(R.layout.fragment_filter_page, container, false);
+
     }
+/*
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        getActivity().setTitle("Filter parameters");
+}*/
+
 }

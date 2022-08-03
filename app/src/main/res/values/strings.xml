@@ -1,8 +1,20 @@
 <resources>
-    <string name="app_name">Maréu</string>
+    <string name="app_name">Mes réunions</string>
     <!-- Used in NavigationDrawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <!-- Used in BlankDrawer -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="reu">Mes réunions</string>
+    <string name="filter">Param. de filtrage</string>
+    <string name="clear">CLEAR</string>
+
+    <!-- Array of titles that will be used by ViewPager as toolbar name -->
+    <string-array name="Titles">
+        <item>@string/reu</item>
+        <item>@string/filter</item>
+        <item>@string/clear</item>
+    </string-array>
+
 </resources>
