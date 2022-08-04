@@ -16,6 +16,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         style="@style/Widget.MaterialComponents.Toolbar.Primary"
@@ -24,9 +25,10 @@
         android:background="#FF4081"
         android:elevation="4dp"
         android:foregroundTint="#00FFFFFF"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:titleCentered="true"
+        app:menu="@menu/top_app_bar"
         app:titleTextAppearance="@style/ToolBarStyle"/>
+
 
     <!--Définir la toolbar comme Barre d’Action-->
 

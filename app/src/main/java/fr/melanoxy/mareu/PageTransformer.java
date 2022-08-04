@@ -15,6 +15,7 @@ public class PageTransformer implements ViewPager2.PageTransformer{
         if (position <= -1) { // [-Infinity,-1)
             // This page is way off-screen to the left.
             view.setAlpha(0.9f);
+            view.setTranslationZ(-1f);
 
         } else if (position < 0) { // [-1,0]
             view.setX(-1f);
@@ -26,11 +27,13 @@ public class PageTransformer implements ViewPager2.PageTransformer{
 
         }else if (position == 0) { // [0]
             view.setAlpha(1f);
+            view.setTranslationZ(0f);
 
         }else if (position > 0) { // [0,1]
         } else { // (1,+Infinity]
             // This page is way off-screen to the right.
             view.setAlpha(1f);
+            view.setTranslationZ(0f);
         }
     }
 }

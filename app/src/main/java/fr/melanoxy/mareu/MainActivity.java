@@ -1,34 +1,56 @@
 package fr.melanoxy.mareu;
 
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 
+import android.app.Activity;
+import android.app.LauncherActivity;
+import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
 import android.widget.LinearLayout;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.shape.CornerFamily;
 import com.google.android.material.shape.MaterialShapeDrawable;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.lang.reflect.Method;
+
 import fr.melanoxy.mareu.Framents.ReuPageFragment;
 import fr.melanoxy.mareu.Framents.ParamPageFragment;
 import fr.melanoxy.mareu.Framents.FilterPageFragment;
+import fr.melanoxy.mareu.databinding.ActivityMainBinding;
+import fr.melanoxy.mareu.events.FragmentEvent;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,39 +58,44 @@ public class MainActivity extends AppCompatActivity {
      * The pager widget, which handles animation and allows swiping horizontally to access previous
      * and next wizard steps.
      */
-    private ViewPager2 viewPager;
-    private DrawerLayout mDrawer;
-    private NavigationView nvDrawer;
-    private LinearLayout mLinearLayout;
 
-    // Make sure to be using androidx.appcompat.app.ActionBarDrawerToggle version.
-    //private ActionBarDrawerToggle drawerToggle;
 
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.d("MainActivity", "OnCreate");
+
+        //binding ActivityMain layout
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+
 
         //Configure the action bar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Find drawer view
-        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        // Setup drawer view
+        setupDrawerContent(binding.navView);
+
 
 
 // Display an hamburger on the left side of the toolbar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_dehaze_white_24dp);
+
+
 //Round corners toolbar
         float radius = getResources().getDimension(R.dimen.default_corner_radius);
         MaterialShapeDrawable toolbarBackground = (MaterialShapeDrawable) toolbar.getBackground();
         toolbarBackground.setShapeAppearanceModel(
                 toolbarBackground.getShapeAppearanceModel()
                         .toBuilder()
-                        .setBottomRightCorner(CornerFamily.ROUNDED,radius)
+                        //.setBottomRightCorner(CornerFamily.ROUNDED,radius)
                         .setBottomLeftCorner(CornerFamily.ROUNDED,radius)
                         .build()
         );
@@ -77,36 +104,77 @@ public class MainActivity extends AppCompatActivity {
         //Configure ViewPager n Tabs
         this.configureViewPagerAndTabs();
 
-
-        // Find our drawer view
-        nvDrawer = findViewById(R.id.nav_view);
-        // Setup drawer view
-        setupDrawerContent(nvDrawer);
-
     }
 
 
     @Override
     public void onBackPressed() {
-        if (viewPager.getCurrentItem() == 0) {
+        if (binding.activityMainViewpager.getCurrentItem() == 0) {
             // If the user is currently looking at the first step, allow the system to handle the
             // Back button. This calls finish() on this activity and pops the back stack.
             super.onBackPressed();
         } else {
             // Otherwise, select the previous step.
-            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+            binding.activityMainViewpager.setCurrentItem(binding.activityMainViewpager.getCurrentItem() - 1);
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("pageItem", binding.activityMainViewpager.getCurrentItem());
+    }
 
-    /*@Override
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        binding.activityMainViewpager.setCurrentItem(savedInstanceState.getInt("pageItem", 0));
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+       if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE || newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            EventBus.getDefault().post(new FragmentEvent(binding.activityMainViewpager.getCurrentItem()));
+        }
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.top_app_bar, menu);
+
+        // To show icons in the actionbar's overflow menu:
+        //if(featureId == Window.FEATURE_ACTION_BAR && menu != null){
+        if(menu.getClass().getSimpleName().equals("MenuBuilder")){
+            try{
+                Method m = menu.getClass().getDeclaredMethod(
+                        "setOptionalIconsVisible", Boolean.TYPE);
+                m.setAccessible(true);
+                m.invoke(menu, true);
+            }
+            catch(NoSuchMethodException e){
+                Log.e(TAG, "onMenuOpened", e);
+            }
+            catch(Exception e){
+                throw new RuntimeException(e);
+            }
+        }
+
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
 
-        if (this != null) {
-            this.setTitle(getString(R.string.app_name));
-        }
-    }*/
+        Log.d("MainActivity", "OnResume");
+
+    }
 
 
 
@@ -115,7 +183,11 @@ public class MainActivity extends AppCompatActivity {
         // The action bar home/up action should open or close the drawer.
         switch (item.getItemId()) {
             case android.R.id.home:
-                mDrawer.openDrawer(GravityCompat.START);
+                binding.drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            case R.id.filter:
+
+                binding.activityMainViewpager.setCurrentItem(1);
                 return true;
         }
 
@@ -127,57 +199,37 @@ public class MainActivity extends AppCompatActivity {
     private void configureViewPagerAndTabs(){
 
         String[] titles = getResources().getStringArray(R.array.Titles);
-        //Get ViewPager from layout
-        viewPager = findViewById(R.id.activity_main_viewpager);
-
 
         //Animation settings for viewPager
-        viewPager.setPageTransformer(new PageTransformer());
+        binding.activityMainViewpager.setPageTransformer(new PageTransformer());
 
         //Set Adapter PageAdapter and glue it together
-        viewPager.setAdapter(new PageAdapter(this, getResources().getStringArray(R.array.Titles)));
+        binding.activityMainViewpager.setAdapter(new PageAdapter(this, getResources().getStringArray(R.array.Titles)));
+
+        binding.activityMainViewpager.setOffscreenPageLimit(2);
 
         //Action depending of fragment selected
-        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+        binding.activityMainViewpager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels);
 
-                mLinearLayout = findViewById(R.id.fragment_reu_page_rootview);
-                Drawable background = mLinearLayout.getBackground();
+               EventBus.getDefault().post(new FragmentEvent(position));
 
-            if(position ==1 ) {
-                //mLinearLayout.setBackgroundColor(Color.parseColor("#B2000000"));
-                if (background instanceof ShapeDrawable) {
-                    ((ShapeDrawable)background).getPaint().setColor(ContextCompat.getColor(getApplicationContext(),R.color.pink_dark));
-                } else if (background instanceof GradientDrawable) {
-                    ((GradientDrawable)background).setColor(ContextCompat.getColor(getApplicationContext(),R.color.pink_dark));
-                } else if (background instanceof ColorDrawable) {
-                    ((ColorDrawable)background).setColor(ContextCompat.getColor(getApplicationContext(),R.color.pink_dark));
                 }
-            }else{
-                //mLinearLayout.setBackgroundColor(Color.parseColor("#ffffff"));
-                if (background instanceof ShapeDrawable) {
-                    ((ShapeDrawable)background).getPaint().setColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
-                } else if (background instanceof GradientDrawable) {
-                    ((GradientDrawable)background).setColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
-                } else if (background instanceof ColorDrawable) {
-                    ((ColorDrawable)background).setColor(ContextCompat.getColor(getApplicationContext(),R.color.white));
-                }
-            }
-
-            }
 
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 // Set title of Activity based on the position of Fragment
                 MainActivity.this.getSupportActionBar().setTitle(titles[position]);
+
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
                 super.onPageScrollStateChanged(state);
+
             }
         });
 
@@ -197,32 +249,27 @@ public class MainActivity extends AppCompatActivity {
 
     public void selectDrawerItem(MenuItem menuItem) {
 
-        //Get ViewPager from layout
-        viewPager = findViewById(R.id.activity_main_viewpager);
-
 
         switch(menuItem.getItemId()) {
             case R.id.activity_main_drawer_news:
-                viewPager.setCurrentItem(0);
+                binding.activityMainViewpager.setCurrentItem(0);
                 break;
             case R.id.activity_main_drawer_profile:
-                viewPager.setCurrentItem(1);
+                binding.activityMainViewpager.setCurrentItem(1);
                 break;
             case R.id.activity_main_drawer_settings:
-                viewPager.setCurrentItem(2);
+                binding.activityMainViewpager.setCurrentItem(2);
                 break;
             default:
-                viewPager.setCurrentItem(0);
+                binding.activityMainViewpager.setCurrentItem(0);
         }
-
-
 
         // Highlight the selected item has been done by NavigationView
         menuItem.setChecked(true);
         // Set action bar title
         setTitle(menuItem.getTitle());
         // Close the navigation drawer
-        mDrawer.closeDrawers();
+        binding.drawerLayout.closeDrawers();
     }
 
     private class PageAdapter extends FragmentStateAdapter {

@@ -4,8 +4,11 @@
     android:id="@+id/fragment_filter_page_rootview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:clickable="true"
     android:background="#00FF0000"
     android:gravity="center">
+
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/fragment_filter_page_CardView1"
@@ -19,6 +22,85 @@
         app:cardBackgroundColor="@color/cetagory_item_bg_01"
         app:cardCornerRadius="16dp"
         app:cardElevation="0dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:background="@android:color/white"
+            android:layout_height="match_parent"
+            android:id="@+id/relativeLayout">
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+
+            <Switch
+            android:id="@+id/date_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="22dp"
+            android:text="Date" />
+
+        <Switch
+            android:id="@+id/place_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/date_switch"
+            android:layout_alignLeft="@+id/date_switch"
+            android:layout_marginTop="20dp"
+            android:text="Lieu" />
+
+            <CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/place_switch"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <TimePicker
+                android:id="@+id/timePicker"
+                android:layout_width="179dp"
+                android:layout_height="99dp"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="20dp"
+                android:layout_toEndOf="@+id/date_switch"
+                android:timePickerMode="spinner" />
+
+            <EditText
+                android:id="@+id/editTextNumberPassword"
+                android:layout_width="100dp"
+                android:layout_marginStart="22dp"
+                android:layout_marginBottom="42dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/calendarView"
+                android:hint="Salle #?"
+                android:ems="10"
+                android:inputType="number" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_toEndOf="@+id/editTextNumberPassword"
+                android:layout_alignBottom="@+id/editTextNumberPassword"
+                android:layout_marginTop="0dp"
+
+                android:text="Filter" />
+
+
+        </RelativeLayout>
+
+    </ScrollView>
 
     </com.google.android.material.card.MaterialCardView>
 

@@ -14,20 +14,28 @@
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/drawable/gradient_drawable.xml" value="0.1" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/drawable/ic_account_box_white_24dp.xml" value="0.181" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/drawable/ic_baseline_dehaze_white_24dp.xml" value="0.1" />
+        <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/drawable/ic_baseline_filter_list_white_24dp.xml" value="0.181" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/drawable/ic_dashboard_white_24dp.xml" value="0.181" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/drawable/ic_launcher_background.xml" value="0.181" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/drawable/ic_settings_applications_white_24dp.xml" value="0.181" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/drawable/shape.xml" value="0.181" />
+        <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/drawable/shape1.xml" value="0.181" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/drawable/shape2.xml" value="0.181" />
+        <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/drawable/shape_filter_fragment.xml" value="0.181" />
+        <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/drawable/shape_reu_fragment.xml" value="0.181" />
+        <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/drawable/toolbar_bg.xml" value="0.181" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/layout/actionbar_foreground.xml" value="0.21784420289855072" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/layout/activity_main_nav_header.xml" value="0.12158054711246201" />
-        <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/layout/fragment_filter_page.xml" value="0.1" />
+        <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/layout/fragment_filter_page.xml" value="0.264" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/layout/fragment_page.xml" value="0.21784420289855072" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/layout/fragment_param_page.xml" value="0.12158054711246201" />
-        <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/layout/fragment_reu_page.xml" value="0.1" />
+        <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/layout/fragment_reu_page.xml" value="0.264" />
+        <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/layout/list_adapter.xml" value="0.18671875" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/layout/toolbar.xml" value="0.25" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/menu/activity_main_menu_drawer.xml" value="0.25" />
+        <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/menu/top_app_bar.xml" value="0.24895833333333334" />
+        <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/xml/top_app_bar.xml" value="0.20512820512820512" />
         <entry key="..\:/Users/magui/Documents/ViewPagerPractice/app/src/main/res/drawable/ic_settings_applications_white_24dp.xml" value="0.181" />
         <entry key="..\:/Users/magui/Documents/ViewPagerPractice/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/magui/Documents/ViewPagerPractice/app/src/main/res/layout/activity_main_menu_drawer.xml" value="0.22826086956521738" />

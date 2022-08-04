@@ -5,18 +5,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:background="@drawable/shape1">
+        android:background="@drawable/shape_reu_fragment"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/fragment_page_reu_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dip"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            android:textColor="#000000"
-            android:textAlignment="center"
-            android:text="RecyclerView"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fragment_reu_page_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"

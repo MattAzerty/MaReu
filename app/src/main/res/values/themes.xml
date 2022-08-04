@@ -12,8 +12,8 @@
         <item name="android:statusBarColor" tools:targetApi="l">#FF4081</item>
 
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">#FF4081</item>
+        <item name="colorPrimaryDark">#FF4081</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
