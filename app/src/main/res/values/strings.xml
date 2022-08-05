@@ -10,11 +10,37 @@
     <string name="filter">Param. de filtrage</string>
     <string name="clear">CLEAR</string>
 
+    <string name="Soleil">Pièce Soleil</string>
+    <string name="Etoile">Pièce Etoile</string>
+    <string name="Lune">Pièce Lune</string>
+    <string name="Mars">Pièce Mars</string>
+    <string name="Venus">Pièce Venus</string>
+    <string name="Pluton">Pièce Pluton</string>
+    <string name="Galaxy">Pièce Galaxy</string>
+    <string name="Titan">Pièce Titan</string>
+    <string name="Saturn">Pièce Saturn</string>
+    <string name="Espace">Pièce Espace</string>
+
+
     <!-- Array of titles that will be used by ViewPager as toolbar name -->
     <string-array name="Titles">
         <item>@string/reu</item>
         <item>@string/filter</item>
         <item>@string/clear</item>
+    </string-array>
+
+    <string-array name="Rooms">
+        <item>@string/Soleil</item>
+        <item>@string/Etoile</item>
+        <item>@string/Lune</item>
+        <item>@string/Mars</item>
+        <item>@string/Venus</item>
+        <item>@string/Pluton</item>
+        <item>@string/Galaxy</item>
+        <item>@string/Titan</item>
+        <item>@string/Saturn</item>
+        <item>@string/Espace</item>
+
     </string-array>
 
 </resources>

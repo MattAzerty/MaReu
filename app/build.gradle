@@ -52,6 +52,9 @@ dependencies {
     implementation "androidx.cardview:cardview:1.0.0"
     // EVENT BUS
     implementation "org.greenrobot:eventbus:3.3.1"
+//all in one time picker
+    implementation 'com.github.florent37:singledateandtimepicker:2.2.7'
+
 }
 
 allprojects {

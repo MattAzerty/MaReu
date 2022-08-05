@@ -9,11 +9,11 @@
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">#FF4081</item>
+        <item name="android:statusBarColor" tools:targetApi="l">#366BC5</item>
 
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#FF4081</item>
-        <item name="colorPrimaryDark">#FF4081</item>
+        <item name="colorPrimary">#448AFF</item>
+        <item name="colorPrimaryDark">#3364B6</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 

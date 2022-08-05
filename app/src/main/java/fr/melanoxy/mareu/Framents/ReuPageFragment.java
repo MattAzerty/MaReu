@@ -89,7 +89,7 @@ public class ReuPageFragment extends Fragment {
 
 
         GradientDrawable backgroundGradient = (GradientDrawable)binding.fragmentReuPageRootview.getBackground();
-        backgroundGradient.setColor(getResources().getColor(R.color.pink_dark));
+        backgroundGradient.setColor(getResources().getColor(R.color.colorPrimaryDark));
 
     }
 
