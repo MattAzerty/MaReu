@@ -1,26 +1,14 @@
-package fr.melanoxy.mareu.Framents;
+package fr.melanoxy.mareu.ViewPagerFraments;
 
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
@@ -28,7 +16,6 @@ import org.greenrobot.eventbus.Subscribe;
 
 import fr.melanoxy.mareu.ListAdapter;
 import fr.melanoxy.mareu.R;
-import fr.melanoxy.mareu.databinding.ActivityMainBinding;
 import fr.melanoxy.mareu.databinding.FragmentReuPageBinding;
 import fr.melanoxy.mareu.events.FragmentEvent;
 
@@ -39,7 +26,7 @@ import fr.melanoxy.mareu.events.FragmentEvent;
  */
 public class ReuPageFragment extends Fragment {
 
-    String[] names = {"hello", "world", "world-1", "world-2", "world-3", "world-4"};
+    String[] names = {"hello", "world", "world-1", "world-2", "world-3", "world-4", "world-5", "world-6", "world-7"};
     //RecyclerView mRecyclerView;
     //LinearLayout mLinearLayout;
     private FragmentReuPageBinding binding;
@@ -107,14 +94,14 @@ public class ReuPageFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        Toast.makeText(getContext(), "SaveInstance", Toast.LENGTH_LONG).show();
+        //Toast.makeText(getContext(), "SaveInstance", Toast.LENGTH_LONG).show();
         //outState.putInt("pageItem", viewPager.getCurrentItem());
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Toast.makeText(getContext(), "OnResumeReuFrag", Toast.LENGTH_LONG).show();
+        //Toast.makeText(getContext(), "OnResumeReuFrag", Toast.LENGTH_LONG).show();
     }
     @Override
     public void onStart() {

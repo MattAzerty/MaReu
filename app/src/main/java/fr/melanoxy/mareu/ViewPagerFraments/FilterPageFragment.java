@@ -1,4 +1,4 @@
-package fr.melanoxy.mareu.Framents;
+package fr.melanoxy.mareu.ViewPagerFraments;
 
 import android.os.Bundle;
 

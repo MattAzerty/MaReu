@@ -3,6 +3,7 @@ plugins {
 }
 
 android {
+
     compileSdk 32
 
     defaultConfig {
@@ -22,8 +23,10 @@ android {
         }
     }
 
+
     buildFeatures {
         viewBinding true
+        dataBinding = true
     }
 
     compileOptions {
@@ -52,8 +55,15 @@ dependencies {
     implementation "androidx.cardview:cardview:1.0.0"
     // EVENT BUS
     implementation "org.greenrobot:eventbus:3.3.1"
-//all in one time picker
+
+    //all in one time picker
     implementation 'com.github.florent37:singledateandtimepicker:2.2.7'
+
+    /*Lifecycle-aware components perform actions in response to a change in the lifecycle status of another component,
+      such as activities and fragments. These components help you produce better-organized, and often lighter-weight code,
+      that is easier to maintain.*/
+
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
 
 }
 

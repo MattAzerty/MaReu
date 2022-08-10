@@ -3,40 +3,22 @@ package fr.melanoxy.mareu;
 
 import static android.content.ContentValues.TAG;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 
-import android.app.Activity;
-import android.app.LauncherActivity;
-import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.widget.LinearLayout;
-import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.shape.CornerFamily;
@@ -46,9 +28,9 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Method;
 
-import fr.melanoxy.mareu.Framents.ReuPageFragment;
-import fr.melanoxy.mareu.Framents.ParamPageFragment;
-import fr.melanoxy.mareu.Framents.FilterPageFragment;
+import fr.melanoxy.mareu.ViewPagerFraments.ReuPageFragment;
+import fr.melanoxy.mareu.ViewPagerFraments.ParamPageFragment;
+import fr.melanoxy.mareu.ViewPagerFraments.FilterPageFragment;
 import fr.melanoxy.mareu.databinding.ActivityMainBinding;
 import fr.melanoxy.mareu.events.FragmentEvent;
 
@@ -59,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
      * and next wizard steps.
      */
 
-
+// initialize variables
     private ActivityMainBinding binding;
 
     @Override
@@ -67,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.d("MainActivity", "OnCreate");
 
         //binding ActivityMain layout
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -76,8 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Configure the action bar
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(binding.toolbar);
 
         // Setup drawer view
         setupDrawerContent(binding.navView);
@@ -91,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
 //Round corners toolbar
         float radius = getResources().getDimension(R.dimen.default_corner_radius);
-        MaterialShapeDrawable toolbarBackground = (MaterialShapeDrawable) toolbar.getBackground();
+        MaterialShapeDrawable toolbarBackground = (MaterialShapeDrawable) binding.toolbar.getBackground();
         toolbarBackground.setShapeAppearanceModel(
                 toolbarBackground.getShapeAppearanceModel()
                         .toBuilder()
@@ -100,9 +80,24 @@ public class MainActivity extends AppCompatActivity {
                         .build()
         );
 
+        binding.activityMainFabAddReu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Log.d("MainActivity", "Fab pressed");
+                Intent UserInfoIntent = new Intent(view.getContext(), NewReuActivity.class);
+                //UserInfoIntent.putExtra("message_key", nb);
+                view.getContext().startActivity(UserInfoIntent);
+
+
+            }
+
+        });
+
 
         //Configure ViewPager n Tabs
         this.configureViewPagerAndTabs();
+
+
 
     }
 
@@ -186,8 +181,9 @@ public class MainActivity extends AppCompatActivity {
                 binding.drawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.filter:
-
-                binding.activityMainViewpager.setCurrentItem(1);
+                    if (binding.activityMainViewpager.getCurrentItem() == 0) {
+                        binding.activityMainViewpager.setCurrentItem(1);
+                    }else{onBackPressed();}
                 return true;
         }
 
@@ -223,6 +219,12 @@ public class MainActivity extends AppCompatActivity {
                 super.onPageSelected(position);
                 // Set title of Activity based on the position of Fragment
                 MainActivity.this.getSupportActionBar().setTitle(titles[position]);
+
+                if (position == 0) {
+                    binding.activityMainFabAddReu.show();
+                } else {
+                    binding.activityMainFabAddReu.hide();
+                }
 
             }
 
