@@ -8,14 +8,22 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.Locale;
 
+import fr.melanoxy.mareu.NewReuActivity;
+import fr.melanoxy.mareu.NewReuViewModel;
 import fr.melanoxy.mareu.R;
-import fr.melanoxy.mareu.databinding.ActivityNewReuBinding;
 
 public class DialogFragment
         extends android.app.DialogFragment {
 
+    private NewReuViewModel model;
 
     public interface OnInputListener {
         void sendInput(String input);
@@ -25,13 +33,13 @@ public class DialogFragment
 
     private EditText mInput;
     private TextView mActionOk, mActionCancel;
+    private NewReuActivity mActivityName;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
-                             Bundle savedInstanceState)
-    {
+                             Bundle savedInstanceState) {
         View view = inflater.inflate(
                 R.layout.fragment_dialog, container, false);
         mActionCancel
@@ -39,47 +47,56 @@ public class DialogFragment
         mActionOk = view.findViewById(R.id.action_ok);
         mInput = view.findViewById(R.id.input);
 
+        mActivityName = (NewReuActivity) getActivity();
+
+
+        Bundle bundle = this.getArguments();
+        String previousEntry = bundle.getString("message");
+
 
         mActionCancel.setOnClickListener(
                 new View.OnClickListener() {
-                    @Override public void onClick(View v)
-                    {
+                    @Override
+                    public void onClick(View v) {
                         getDialog().dismiss();
                     }
                 });
 
         mActionOk.setOnClickListener(
                 new View.OnClickListener() {
-                    @Override public void onClick(View v)
-                    {
+                    @Override
+                    public void onClick(View v) {
                         //TODO:API 21 on Attach not called ?
-                        mOnInputListener = (OnInputListener)getActivity();
+                        mOnInputListener = (OnInputListener) getActivity();
                         //get input mail
-                        String input = mInput.getText().toString().toLowerCase(Locale.ROOT);
-
+                        String input = mInput.getText().toString().toLowerCase(Locale.ROOT).trim();
+                        // 1=error
+                        int duplicateError = (previousEntry.contains(input)) ? 1 : 0;
                         int syntaxError = (!(input.contains("@entreprise.com"))) ? 1 : 0;
 
 
+                        if (syntaxError == 0 && duplicateError == 0) {
+                            mOnInputListener.sendInput(input);
+                            getDialog().dismiss();
+                        } else {
 
-            if(syntaxError==0){
-                        mOnInputListener.sendInput(input);
-                        getDialog().dismiss();
-            }
-            else{
-                String dialogError = "erreur";
+                            String dialogError;
 
-                /*switch(10*syntaxError + duplicateError){
+                            switch (10 * syntaxError + duplicateError) {
 
-                    case 1:dialogError = "erreur de syntaxe ";
-                        break;
-                    case 2:dialogError = "déjà présent ";
-                        break;
+                                case 10:
+                                    dialogError = "Erreur de syntaxe ";
+                                    break;
+                                case 1:
+                                    dialogError = "Déjà présent ";
+                                    break;
 
-                    default:
-                        dialogError = "erreur";
-                }*/
+                                default:
+                                    dialogError = "erreur";
+                            }
 
-                mInput.setText(dialogError);}
+                            mInput.setText(dialogError);
+                        }
 
                     }
                 });
@@ -87,15 +104,22 @@ public class DialogFragment
         return view;
     }
 
-    @Override public void onAttach(Context context)
-    {
+    @Override
+    public void onAttach(Context context) {
         super.onAttach(context);
         try {
             mOnInputListener
-                    = (OnInputListener)getActivity();
-        }
-        catch (ClassCastException e) {
+                    = (OnInputListener) getActivity();
+        } catch (ClassCastException e) {
 
         }
     }
+
+    /*public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        model = new ViewModelProvider(getActivity()).get(NewReuViewModel.class);
+                    model.getPeople();;
+    }*/
+
+
 }

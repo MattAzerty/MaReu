@@ -105,6 +105,7 @@
             android:layout_height="50dp"
             android:spinnerMode="dropdown"
             android:entries="@array/Rooms"
+            android:selectedItemPosition="@={viewModel.place}"
             android:layout_marginTop="4dp"
             android:layout_alignRight="@+id/subjectLyt"
             android:layout_below="@+id/subjectLyt"/>
@@ -130,6 +131,8 @@
             android:layout_marginTop="16dp"
             android:layout_marginStart="18dp"
             android:layout_marginEnd="18dp"
+            app:picker_stepSizeMinutes="10"
+            app:picker_displayYears="true"
             app:picker_curved="true"
             app:picker_curvedMaxAngle="45"
             app:picker_cyclic="false"

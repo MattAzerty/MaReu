@@ -5,13 +5,25 @@ import androidx.annotation.Nullable;
 public class ReunionModel {
 
     @Nullable
-    String place,date,subject,people;
+    String subject,people;
+    int place;
+    int year;
+    int month;
+    int day;
+    int hour;
+    int minute;
+
+
 
     // constructor to initialize
     // the variables
-    public ReunionModel(String place, String date, String subject, String people){
+    public ReunionModel(int place, int year, int month, int day, int hour, int minute, String subject, String people){
         this.place = place;
-        this.date = date;
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.hour = hour;
+        this.minute = minute;
         this.subject = subject;
         this.people = people;
     }
@@ -20,26 +32,72 @@ public class ReunionModel {
     // for place variable
 
     @Nullable
-    public String getPlace() {
+    public int getPlace() {
         return place;
     }
 
-    public void setPlace(@Nullable String place) {
+    public void setPlace(@Nullable int place) {
         this.place = place;
     }
 
-
-
     // getter and setter methods
-    // for date variable
+    // for Year variable
 
     @Nullable
-    public String getDate() {
-        return date;
+    public int getYear() {
+        return year;
     }
 
-    public void setDate(@Nullable String date) {
-        this.date = date;
+    public void setYear(@Nullable int year) {
+        this.year = year;
+    }
+
+    // getter and setter methods
+    // for Month variable
+
+    @Nullable
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(@Nullable int month) {
+        this.month = month;
+    }
+
+    // getter and setter methods
+    // for Day variable
+
+    @Nullable
+    public int getDay() {
+        return day;
+    }
+
+    public void setDay(@Nullable int day) {
+        this.day = day;
+    }
+
+    // getter and setter methods
+    // for Hour variable
+
+    @Nullable
+    public int getHour() {
+        return hour;
+    }
+
+    public void setHour(@Nullable int hour) {
+        this.hour = hour;
+    }
+
+    // getter and setter methods
+    // for Minute variable
+
+    @Nullable
+    public int getMinute() {
+        return minute;
+    }
+
+    public void setMinute(@Nullable int minute) {
+        this.minute = minute;
     }
 
     // getter and setter methods

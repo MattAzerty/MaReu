@@ -1,32 +1,27 @@
 package fr.melanoxy.mareu;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
 
 import android.os.Bundle;
-import android.util.Log;
+
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 
 import fr.melanoxy.mareu.NewReuFragment.DialogFragment;
 import fr.melanoxy.mareu.databinding.ActivityNewReuBinding;
-import fr.melanoxy.mareu.databinding.FragmentDialogBinding;
 
 public class NewReuActivity extends AppCompatActivity implements DialogFragment.OnInputListener{
 
     // Initialize variables
     private ActivityNewReuBinding mNewReuBinding;
-    private NewReuViewModel viewModel;
+    private NewReuViewModel mViewModel;
     public String mInput;
-    private String initPeople = "nom1@entreprise.com;\nnom2@entreprise.com;\nnom3@entreprise.com;";
     private String editedPeople ="";
 
     @Override public void sendInput(String input)
@@ -53,48 +48,26 @@ public class NewReuActivity extends AppCompatActivity implements DialogFragment.
 
 // ViewModel updates the Model after observing changes in the View
         mNewReuBinding= DataBindingUtil.setContentView(this,R.layout.activity_new_reu);
+        mNewReuBinding.setViewModel(new NewReuViewModel());
+        mNewReuBinding.executePendingBindings();
 
-       // viewModel = new ViewModelProvider(this).get(NewReuViewModel.class);
+        //mViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())).get(NewReuViewModel.class);
 
-        // model will also update the view
-        // via the ViewModel
-        //mNewReuBinding.setViewModel(new NewReuViewModel());
-        //mNewReuBinding.executePendingBindings();
-
-/*
-        mNewReuBinding.sujet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Get text from edit text
-                String sText=mNewReuBinding.sujet.getText().toString().trim();
-
-                // Check condition
-                if(!sText.equals(""))
-                {
-                    // when text is not empty
-                    // set text on text view
-                    mNewReuBinding.sujet.setText(sText);
-                }
-                else
-                {
-                    // When text is empty
-                    // Display Toast
-                    Toast.makeText(getApplicationContext()
-                            ,"Please enter text",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });*/
+//change programmatically a variable
+        mNewReuBinding.getViewModel().setPeople("nom1@entreprise.com;\nnom2@entreprise.com;\nnom3@entreprise.com;");
 
 
         mNewReuBinding.newReuAddPeopleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Open Dialog fragment
-                DialogFragment dialog
-                        = new DialogFragment();
-                dialog.show(getFragmentManager(),
-                        "MyCustomDialog");
 
+                Bundle bundle = new Bundle();
+                String myMessage = mNewReuBinding.people.getEditableText().toString();
+                bundle.putString("message", myMessage );
+                DialogFragment fragInfo = new DialogFragment();
+                fragInfo.setArguments(bundle);
+                fragInfo.show(getFragmentManager(),
+                        "MyCustomDialog");
             }
         });
 
@@ -115,16 +88,7 @@ public class NewReuActivity extends AppCompatActivity implements DialogFragment.
                 editedPeople="";
             }
         });
-
-
     }
-
-    /*@BindingAdapter("people")
-    public static void setPeople(View view,String people) {
-        //mNewReuBinding.people.setText(initPeople);
-            Toast.makeText(view.getContext(), people, Toast.LENGTH_SHORT).show();
-    }*/
-
 
 
     private void setPeopleToTextView()
@@ -133,20 +97,16 @@ public class NewReuActivity extends AppCompatActivity implements DialogFragment.
         String mPeopleText=mNewReuBinding.people.getEditableText().toString();
 
         // Check condition
-        if(!mPeopleText.equals(""))
+        if(mPeopleText.contains("nom1@entreprise.com;\nnom2@entreprise.com;\nnom3@entreprise.com;"))
         {
-            // when text is not in initial state
-            // set a new people on text view
-            mNewReuBinding.people.setText(mPeopleText+"\n"+mInput);
+            // Text is in initial state
+            mNewReuBinding.people.setText(mInput);
         }
         else
         {
-            // Text is in initial state
-            // Make a new field for people
-            mNewReuBinding.people.setText(mInput);
+            // when text is not in initial state
+
+            mNewReuBinding.people.setText(mPeopleText+"\n"+mInput);
         }
-
     }
-
-
 }
