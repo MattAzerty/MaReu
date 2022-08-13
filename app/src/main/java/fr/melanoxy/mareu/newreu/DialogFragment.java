@@ -1,4 +1,4 @@
-package fr.melanoxy.mareu.NewReuFragment;
+package fr.melanoxy.mareu.newreu;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,16 +8,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProvider;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
 import java.util.Locale;
 
 import fr.melanoxy.mareu.NewReuActivity;
-import fr.melanoxy.mareu.NewReuViewModel;
 import fr.melanoxy.mareu.R;
 
 public class DialogFragment
@@ -48,7 +41,6 @@ public class DialogFragment
         mInput = view.findViewById(R.id.input);
 
         mActivityName = (NewReuActivity) getActivity();
-
 
         Bundle bundle = this.getArguments();
         String previousEntry = bundle.getString("message");

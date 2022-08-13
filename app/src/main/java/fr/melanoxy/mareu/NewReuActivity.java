@@ -1,34 +1,38 @@
 package fr.melanoxy.mareu;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 
 
 import android.os.Bundle;
 
-import android.view.LayoutInflater;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 
 
-import fr.melanoxy.mareu.NewReuFragment.DialogFragment;
+import com.google.android.material.textfield.TextInputEditText;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import fr.melanoxy.mareu.newreu.DialogFragment;
 import fr.melanoxy.mareu.databinding.ActivityNewReuBinding;
+import fr.melanoxy.mareu.newreu.NewReuViewModel;
 
-public class NewReuActivity extends AppCompatActivity implements DialogFragment.OnInputListener{
+public class NewReuActivity extends AppCompatActivity {
 
     // Initialize variables
     private ActivityNewReuBinding mNewReuBinding;
     private NewReuViewModel mViewModel;
-    public String mInput;
     private String editedPeople ="";
-
-    @Override public void sendInput(String input)
-    {
-        mInput = input.trim()+";";
-        setPeopleToTextView();
-    }
 
 
     @Override
@@ -40,73 +44,89 @@ public class NewReuActivity extends AppCompatActivity implements DialogFragment.
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_new_reu);
 
         /*getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|
                         View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);*/
 
-// ViewModel updates the Model after observing changes in the View
-        mNewReuBinding= DataBindingUtil.setContentView(this,R.layout.activity_new_reu);
-        mNewReuBinding.setViewModel(new NewReuViewModel());
-        mNewReuBinding.executePendingBindings();
+        //viewBinding
+        mNewReuBinding = ActivityNewReuBinding.inflate(getLayoutInflater());
+        View view = mNewReuBinding.getRoot();
+        setContentView(view);
 
-        //mViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())).get(NewReuViewModel.class);
+        //Associating ViewModel with the Activity
+        NewReuViewModel viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(NewReuViewModel.class);
 
-//change programmatically a variable
-        mNewReuBinding.getViewModel().setPeople("nom1@entreprise.com;\nnom2@entreprise.com;\nnom3@entreprise.com;");
+        //Bind data with viewModel NewReuViewModel and viewBinding
+            //TODO bindPeople
+            //TODO bindPlace
+            //TODO bindSubject
+
+        //SingleLiveEvent to close the activity
+        viewModel.getCloseActivitySingleLiveEvent().observe(this, aVoid -> finish());
 
 
-        mNewReuBinding.newReuAddPeopleButton.setOnClickListener(new View.OnClickListener() {
+        //TextChanged listener
+        bindSubject(viewModel);
+        //ClickListener
+        bindCancelButton(viewModel);
+        //ConstantConditions
+        bindAddButton(viewModel);
+
+    }
+
+    private void bindSubject(NewReuViewModel viewModel) {
+        mNewReuBinding.subject.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View view) {
-
-                Bundle bundle = new Bundle();
-                String myMessage = mNewReuBinding.people.getEditableText().toString();
-                bundle.putString("message", myMessage );
-                DialogFragment fragInfo = new DialogFragment();
-                fragInfo.setArguments(bundle);
-                fragInfo.show(getFragmentManager(),
-                        "MyCustomDialog");
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
-        });
 
-        mNewReuBinding.newReuRemovePeopleButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                // get people input
-                String mAllPeople=mNewReuBinding.people.getEditableText().toString();
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
-                String[] people = mAllPeople.split("\n");
-
-                for (int i=0; i<people.length-1; i++ ){
-                    editedPeople = editedPeople + people[i]+"\n";
-                }
-
-                mNewReuBinding.people.setText(editedPeople.trim());
-
-                editedPeople="";
+            @Override
+            public void afterTextChanged(Editable s) {
+                viewModel.onSubjectChanged(s.toString());
             }
         });
     }
 
 
-    private void setPeopleToTextView()
-    {
-
-        String mPeopleText=mNewReuBinding.people.getEditableText().toString();
-
-        // Check condition
-        if(mPeopleText.contains("nom1@entreprise.com;\nnom2@entreprise.com;\nnom3@entreprise.com;"))
-        {
-            // Text is in initial state
-            mNewReuBinding.people.setText(mInput);
-        }
-        else
-        {
-            // when text is not in initial state
-
-            mNewReuBinding.people.setText(mPeopleText+"\n"+mInput);
-        }
+    private void bindCancelButton(NewReuViewModel viewModel) {
+        mNewReuBinding.newReuCancelReuButton.setOnClickListener(v -> viewModel.onCancelButtonClicked());
     }
+
+
+
+    private void bindAddButton(NewReuViewModel viewModel) {
+
+        mNewReuBinding.newReuAddReuButton.setOnClickListener(v -> viewModel.onAddButtonClicked(
+                getDateSelected(),
+                getSelectedItem(),
+                mNewReuBinding.subject.getText().toString(),
+                mNewReuBinding.people.getText().toString()
+        ));
+        viewModel.getIsAddButtonEnabledLiveData().observe(this, isAddButtonEnabled -> mNewReuBinding.newReuAddReuButton.setEnabled(isAddButtonEnabled));
+    }
+
+    private String getDateSelected(){
+
+        Date date = mNewReuBinding.newReuSingleDayPicker.getDate();
+        DateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");  ;
+        String strDate = dateFormat.format(date);
+        return strDate;
+
+    }
+
+    private String getSelectedItem(){
+
+        String state = mNewReuBinding.newReuSpinnerPlace.getSelectedItem().toString();
+        return state;
+    }
+
+
+
 }

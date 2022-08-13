@@ -63,7 +63,9 @@ dependencies {
       such as activities and fragments. These components help you produce better-organized, and often lighter-weight code,
       that is easier to maintain.*/
 
-    implementation 'android.arch.lifecycle:extensions:1.1.1'
+    def version= '1.1.1'
+    implementation "android.arch.lifecycle:extensions:$version"
+    annotationProcessor "android.arch.lifecycle:compiler:$version"
 
 }
 
