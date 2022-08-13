@@ -10,6 +10,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.Date;
+
 import fr.melanoxy.mareu.events.SingleLiveEvent;
 import fr.melanoxy.mareu.repo.ReunionRepository;
 
@@ -24,6 +26,9 @@ public class NewReuViewModel extends ViewModel {
 
     // Default value for create reu is false : button should not be enabled at start
     private final MutableLiveData<Boolean> isAddButtonEnabledMutableLiveData = new MutableLiveData<>(false);
+
+    private Date date = new Date();
+    private final MutableLiveData<Date> dateMutableLiveData = new MutableLiveData<>(date);
 
 
     //close activity SingleLiveEvent
@@ -44,6 +49,10 @@ public class NewReuViewModel extends ViewModel {
         return isAddButtonEnabledMutableLiveData;
     }
 
+    public LiveData<Date> getDateLiveData() {
+        return dateMutableLiveData;
+    }
+
     //getter for closeActivitySingleLiveEvent
     public SingleLiveEvent<Void> getCloseActivitySingleLiveEvent() {
         return closeActivitySingleLiveEvent;
@@ -52,6 +61,11 @@ public class NewReuViewModel extends ViewModel {
     //method called to set CreateButton state
     public void onSubjectChanged(String subject) {
         isAddButtonEnabledMutableLiveData.setValue(!subject.isEmpty());
+    }
+
+    //method called when spinner date is used
+    public void onDateChanged(Date date) {
+        dateMutableLiveData.setValue(date);
     }
 
     public void onAddButtonClicked(

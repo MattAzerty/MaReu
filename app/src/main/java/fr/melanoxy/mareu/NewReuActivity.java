@@ -14,9 +14,14 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 
+import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
+import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.DateFormat;
@@ -56,6 +61,7 @@ public class NewReuActivity extends AppCompatActivity {
         View view = mNewReuBinding.getRoot();
         setContentView(view);
 
+
         //Associating ViewModel with the Activity
         NewReuViewModel viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(NewReuViewModel.class);
 
@@ -67,7 +73,8 @@ public class NewReuActivity extends AppCompatActivity {
         //SingleLiveEvent to close the activity
         viewModel.getCloseActivitySingleLiveEvent().observe(this, aVoid -> finish());
 
-
+        //Spinner listener
+        bindDate(viewModel);
         //TextChanged listener
         bindSubject(viewModel);
         //ClickListener
@@ -75,6 +82,14 @@ public class NewReuActivity extends AppCompatActivity {
         //ConstantConditions
         bindAddButton(viewModel);
 
+    }
+
+    private void bindDate(NewReuViewModel viewModel) {
+
+        SingleDateAndTimePicker.OnDateChangedListener changeListener = (displayed, date) -> viewModel.onDateChanged(date);
+        mNewReuBinding.newReuSingleDayPicker.addOnDateChangedListener(changeListener);
+
+        viewModel.getDateLiveData().observe(this, date -> mNewReuBinding.newReuSingleDayPicker.setDefaultDate(date));
     }
 
     private void bindSubject(NewReuViewModel viewModel) {
@@ -126,7 +141,8 @@ public class NewReuActivity extends AppCompatActivity {
         String state = mNewReuBinding.newReuSpinnerPlace.getSelectedItem().toString();
         return state;
     }
-
-
-
+/*
+    private void display(String toDisplay) {
+        Toast.makeText(this, toDisplay, Toast.LENGTH_SHORT).show();
+    }*/
 }
