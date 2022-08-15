@@ -130,7 +130,7 @@
             app:picker_displayYears="true"
             app:picker_curved="true"
             app:picker_curvedMaxAngle="45"
-            app:picker_cyclic="false"
+            app:picker_cyclic="true"
             app:picker_itemSpacing="22dp"
             app:picker_selectedTextColor="#FFAB40"
             app:picker_selectorColor="@color/colorPrimary"

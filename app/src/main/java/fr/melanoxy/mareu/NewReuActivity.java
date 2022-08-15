@@ -65,10 +65,9 @@ public class NewReuActivity extends AppCompatActivity {
         //Associating ViewModel with the Activity
         NewReuViewModel viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(NewReuViewModel.class);
 
-        //Bind data with viewModel NewReuViewModel and viewBinding
-            //TODO bindPeople
-            //TODO bindPlace
-            //TODO bindSubject
+
+//Bind data with viewModel NewReuViewModel and viewBinding
+
 
         //SingleLiveEvent to close the activity
         viewModel.getCloseActivitySingleLiveEvent().observe(this, aVoid -> finish());
@@ -77,10 +76,48 @@ public class NewReuActivity extends AppCompatActivity {
         bindDate(viewModel);
         //TextChanged listener
         bindSubject(viewModel);
+        bindPeople(viewModel);
         //ClickListener
         bindCancelButton(viewModel);
         //ConstantConditions
         bindAddButton(viewModel);
+
+
+        mNewReuBinding.newReuAddPeopleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                DialogFragment dialog = new DialogFragment();
+                dialog.show(getFragmentManager(),
+                        "MyCustomDialog");
+
+            }
+        });
+
+/*
+        mNewReuBinding.newReuRemovePeopleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // get people input
+                String mAllPeople=mNewReuBinding.people.getEditableText().toString();
+
+                if(mAllPeople.contains(initPeople)) {
+                    editedPeople = "";
+                    mNewReuBinding.people.setText(initPeople);
+
+                }else{
+                    String[] people = mAllPeople.split("\n");
+
+                    for (int i = 0; i < people.length - 1; i++) {
+                        editedPeople = editedPeople + people[i] + "\n";
+                    }
+
+                    mNewReuBinding.people.setText(editedPeople.trim());
+
+                    editedPeople = "";
+                } }
+        });*/
+
 
     }
 
@@ -109,11 +146,14 @@ public class NewReuActivity extends AppCompatActivity {
         });
     }
 
+    private void bindPeople(NewReuViewModel viewModel) {
+
+        viewModel.getPeopleLiveData().observe(this, people -> mNewReuBinding.people.setText(people));
+    }
 
     private void bindCancelButton(NewReuViewModel viewModel) {
         mNewReuBinding.newReuCancelReuButton.setOnClickListener(v -> viewModel.onCancelButtonClicked());
     }
-
 
 
     private void bindAddButton(NewReuViewModel viewModel) {
@@ -141,8 +181,5 @@ public class NewReuActivity extends AppCompatActivity {
         String state = mNewReuBinding.newReuSpinnerPlace.getSelectedItem().toString();
         return state;
     }
-/*
-    private void display(String toDisplay) {
-        Toast.makeText(this, toDisplay, Toast.LENGTH_SHORT).show();
-    }*/
+
 }

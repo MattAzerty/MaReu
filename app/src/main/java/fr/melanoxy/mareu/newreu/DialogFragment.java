@@ -2,19 +2,21 @@ package fr.melanoxy.mareu.newreu;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.lifecycle.ViewModelProvider;
+
 import java.util.Locale;
 
 import fr.melanoxy.mareu.NewReuActivity;
 import fr.melanoxy.mareu.R;
 
-public class DialogFragment
-        extends android.app.DialogFragment {
+public class DialogFragment extends android.app.DialogFragment {
 
     private NewReuViewModel model;
 
@@ -26,7 +28,8 @@ public class DialogFragment
 
     private EditText mInput;
     private TextView mActionOk, mActionCancel;
-    private NewReuActivity mActivityName;
+    private NewReuActivity mNewReuActivity;
+    private String previousEntry;
 
 
     @Override
@@ -40,10 +43,12 @@ public class DialogFragment
         mActionOk = view.findViewById(R.id.action_ok);
         mInput = view.findViewById(R.id.input);
 
-        mActivityName = (NewReuActivity) getActivity();
+        mNewReuActivity = (NewReuActivity) getActivity();
+        NewReuViewModel viewModel = new ViewModelProvider(mNewReuActivity).get(NewReuViewModel.class);
 
-        Bundle bundle = this.getArguments();
-        String previousEntry = bundle.getString("message");
+
+        viewModel.getPeopleLiveData().observe(mNewReuActivity, people -> previousEntry=people);
+        Log.v("previousEntry", previousEntry);
 
 
         mActionCancel.setOnClickListener(
@@ -58,17 +63,18 @@ public class DialogFragment
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //TODO:API 21 on Attach not called ?
-                        mOnInputListener = (OnInputListener) getActivity();
+
+                        //mOnInputListener = (OnInputListener) getActivity();
                         //get input mail
                         String input = mInput.getText().toString().toLowerCase(Locale.ROOT).trim();
                         // 1=error
                         int duplicateError = (previousEntry.contains(input)) ? 1 : 0;
-                        int syntaxError = (!(input.contains("@entreprise.com"))) ? 1 : 0;
+                        int syntaxError = (!(input.contains("@lamzone.com"))) ? 1 : 0;
 
 
                         if (syntaxError == 0 && duplicateError == 0) {
-                            mOnInputListener.sendInput(input);
+                            //Update livedata
+                            viewModel.onPeopleAdded(input);
                             getDialog().dismiss();
                         } else {
 
@@ -96,7 +102,7 @@ public class DialogFragment
         return view;
     }
 
-    @Override
+    /*@Override
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
@@ -105,7 +111,7 @@ public class DialogFragment
         } catch (ClassCastException e) {
 
         }
-    }
+    }*/
 
     /*public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

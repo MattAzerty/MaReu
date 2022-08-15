@@ -27,9 +27,13 @@ public class NewReuViewModel extends ViewModel {
     // Default value for create reu is false : button should not be enabled at start
     private final MutableLiveData<Boolean> isAddButtonEnabledMutableLiveData = new MutableLiveData<>(false);
 
+    //DATE to handle rotation of the screen
     private Date date = new Date();
     private final MutableLiveData<Date> dateMutableLiveData = new MutableLiveData<>(date);
 
+    //PEOPLE to get access from DialogFragment
+    private String initPeople ="nom1@entreprise.com;\nnom2@entreprise.com;\nnom3@entreprise.com;";
+    private final MutableLiveData<String> peopleMutableLiveData = new MutableLiveData<>(initPeople);
 
     //close activity SingleLiveEvent
     // Check https://medium.com/androiddevelopers/livedata-with-snackbar-navigation-and-other-events-the-singleliveevent-case-ac2622673150
@@ -53,6 +57,10 @@ public class NewReuViewModel extends ViewModel {
         return dateMutableLiveData;
     }
 
+    public LiveData<String> getPeopleLiveData() {
+        return peopleMutableLiveData;
+    }
+
     //getter for closeActivitySingleLiveEvent
     public SingleLiveEvent<Void> getCloseActivitySingleLiveEvent() {
         return closeActivitySingleLiveEvent;
@@ -66,6 +74,11 @@ public class NewReuViewModel extends ViewModel {
     //method called when spinner date is used
     public void onDateChanged(Date date) {
         dateMutableLiveData.setValue(date);
+    }
+
+    //method called when dialogue is used
+    public void onPeopleAdded(String people) {
+        peopleMutableLiveData.setValue(people);
     }
 
     public void onAddButtonClicked(
