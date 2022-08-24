@@ -68,7 +68,7 @@ public class ReunionRepository {
     }
 
 
-    public LiveData<List<Reunion>> getNeighboursLiveData() {
+    public LiveData<List<Reunion>> getReunionsLiveData() {
         return reunionsLiveData;
     }
 

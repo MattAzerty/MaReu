@@ -5,10 +5,8 @@ import static android.content.ContentValues.TAG;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 
 import android.content.Intent;
@@ -28,13 +26,13 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Method;
 
-import fr.melanoxy.mareu.ViewPagerFraments.ReuPageFragment;
-import fr.melanoxy.mareu.ViewPagerFraments.ParamPageFragment;
-import fr.melanoxy.mareu.ViewPagerFraments.FilterPageFragment;
 import fr.melanoxy.mareu.databinding.ActivityMainBinding;
 import fr.melanoxy.mareu.events.FragmentEvent;
+import fr.melanoxy.mareu.list.MaReuViewModel;
+import fr.melanoxy.mareu.utils.ViewModelFactory;
+import fr.melanoxy.mareu.viewpager.PageTransformer;
 
-public class MainActivity extends AppCompatActivity {
+public class MaReuActivity extends AppCompatActivity {
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
@@ -54,6 +52,13 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
+        //Configure ViewPager
+        this.configureViewPagerAndTabs();
+
+
+        //Associating ViewModel with the Activity
+        MaReuViewModel viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(MaReuViewModel.class);
 
 
         //Configure the action bar
@@ -80,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
                         .build()
         );
 
+
+//Listener for adding a new reunion activity
         binding.activityMainFabAddReu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,11 +99,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-
-
-        //Configure ViewPager n Tabs
-        this.configureViewPagerAndTabs();
-
 
 
     }
@@ -191,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    // Instantiate a ViewPager2 and a PagerAdapter and Tabs
+    // Instantiate a ViewPager2 and a PagerAdapter
     private void configureViewPagerAndTabs(){
 
         String[] titles = getResources().getStringArray(R.array.Titles);
@@ -200,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
         binding.activityMainViewpager.setPageTransformer(new PageTransformer());
 
         //Set Adapter PageAdapter and glue it together
-        binding.activityMainViewpager.setAdapter(new PageAdapter(this, getResources().getStringArray(R.array.Titles)));
+        binding.activityMainViewpager.setAdapter(new MainPagerAdapter(this, getResources().getStringArray(R.array.Titles)));
 
         binding.activityMainViewpager.setOffscreenPageLimit(2);
 
@@ -218,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 // Set title of Activity based on the position of Fragment
-                MainActivity.this.getSupportActionBar().setTitle(titles[position]);
+                MaReuActivity.this.getSupportActionBar().setTitle(titles[position]);
 
                 if (position == 0) {
                     binding.activityMainFabAddReu.show();
@@ -273,36 +275,4 @@ public class MainActivity extends AppCompatActivity {
         // Close the navigation drawer
         binding.drawerLayout.closeDrawers();
     }
-
-    private class PageAdapter extends FragmentStateAdapter {
-
-        // 1 - Array of colors that will be passed to PageFragment
-        private String[] titles;
-
-        // 2 - Default Constructor
-        public PageAdapter(FragmentActivity fa, String[] titles) {
-            super(fa);
-            this.titles = titles;
-        }
-
-        @Override
-        public int getItemCount() {
-            return(2); // 3 - Number of page to show
-        }
-
-
-        @Override
-        public Fragment createFragment(int position) {
-
-            // 4 - Page to return
-            switch (position){
-                case 0: //Page number 1
-                    return ReuPageFragment.newInstance();
-                case 1: //Page number 2
-                    return FilterPageFragment.newInstance();
-                case 2: //Page number 3
-                    return ParamPageFragment.newInstance();
-                default:
-                    return null;
-        }
-        }}}
+}

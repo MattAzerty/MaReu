@@ -1,4 +1,4 @@
-package fr.melanoxy.mareu;
+package fr.melanoxy.mareu.utils;
 
 import android.app.Application;
 

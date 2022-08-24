@@ -1,10 +1,12 @@
-package fr.melanoxy.mareu;
+package fr.melanoxy.mareu.utils;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import fr.melanoxy.mareu.FilterPageViewModel;
 import fr.melanoxy.mareu.config.BuildConfigResolver;
+import fr.melanoxy.mareu.list.MaReuViewModel;
 import fr.melanoxy.mareu.newreu.NewReuViewModel;
 import fr.melanoxy.mareu.repo.ReunionRepository;
 
@@ -48,6 +50,10 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         } else if (modelClass.isAssignableFrom(FilterPageViewModel.class)) {
             return (T) new FilterPageViewModel(
                     MainApplication.getInstance(),
+                    reunionRepository
+            );
+        }else if (modelClass.isAssignableFrom(MaReuViewModel.class)) {
+            return (T) new MaReuViewModel(
                     reunionRepository
             );
         }

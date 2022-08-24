@@ -1,4 +1,4 @@
-package fr.melanoxy.mareu;
+package fr.melanoxy.mareu.viewpager;
 
 import android.graphics.Color;
 import android.view.View;

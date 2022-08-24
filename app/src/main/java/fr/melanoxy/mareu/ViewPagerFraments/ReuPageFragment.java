@@ -3,7 +3,10 @@ package fr.melanoxy.mareu.ViewPagerFraments;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
@@ -14,10 +17,13 @@ import android.widget.Toast;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import fr.melanoxy.mareu.ListAdapter;
+import fr.melanoxy.mareu.MaReuActivity;
+import fr.melanoxy.mareu.list.ReunionsAdapter;
 import fr.melanoxy.mareu.R;
 import fr.melanoxy.mareu.databinding.FragmentReuPageBinding;
 import fr.melanoxy.mareu.events.FragmentEvent;
+import fr.melanoxy.mareu.list.MaReuViewModel;
+import fr.melanoxy.mareu.list.OnReunionClickedListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,13 +32,13 @@ import fr.melanoxy.mareu.events.FragmentEvent;
  */
 public class ReuPageFragment extends Fragment {
 
-    String[] names = {"hello", "world", "world-1", "world-2", "world-3", "world-4", "world-5", "world-6", "world-7"};
-    //RecyclerView mRecyclerView;
-    //LinearLayout mLinearLayout;
-    private FragmentReuPageBinding binding;
 
-    public static ReuPageFragment newInstance() {
-        return (new ReuPageFragment());
+    private FragmentReuPageBinding binding;
+    private MaReuActivity mMaReuActivity;
+
+    public static Fragment newInstance() {
+        ReuPageFragment fragment = new ReuPageFragment();
+        return fragment;
     }
 
 
@@ -43,9 +49,6 @@ public class ReuPageFragment extends Fragment {
         //binding FragmentReuPageBinding layout
         binding = FragmentReuPageBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
-
-        binding.fragmentReuPageRecyclerview.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        binding.fragmentReuPageRecyclerview.setAdapter(new ListAdapter(names));
 
         // Inflate the layout for this fragment
         return view;
@@ -58,21 +61,39 @@ public class ReuPageFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        /*if (savedInstanceState != null) {
-            viewPager.setCurrentItem(savedInstanceState.getInt("pageItem", 0));
+        //ViewModel of MaReuActivity associated here on the fragment
+        mMaReuActivity = (MaReuActivity) getActivity();
+        MaReuViewModel viewModel = new ViewModelProvider(mMaReuActivity).get(MaReuViewModel.class);
 
-        }*/
+        //RecyclerView recyclerView = view.findViewById(R.id.neighbours_rv);
+
+        ReunionsAdapter adapter = new ReunionsAdapter(new OnReunionClickedListener() {
+            @Override
+            public void onReunionClicked(long neighbourId) {
+                //startActivity(NeighbourDetailActivity.navigate(requireContext(), neighbourId));
+                Toast.makeText(getActivity(), "details about my REU", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onDeleteReunionClicked(long reunionId) {
+                viewModel.onDeleteReunionClicked(reunionId);
+            }
+        });
+        binding.reunionsRv.setAdapter(adapter);
+
+        viewModel.getReunionsViewStateItemLiveData().observe(getViewLifecycleOwner(), reunionsViewStateItems ->
+                adapter.submitList(reunionsViewStateItems)
+        );
 
     }
 
 
     private void hide() {
 
-        binding.fragmentReuPageRecyclerview.setAlpha(0);
-        binding.fragmentReuPageRecyclerview.setClickable(false);
+        binding.reunionsRv.setAlpha(0);
+        binding.reunionsRv.setClickable(false);
 
 
         GradientDrawable backgroundGradient = (GradientDrawable)binding.fragmentReuPageRootview.getBackground();
@@ -81,8 +102,8 @@ public class ReuPageFragment extends Fragment {
     }
 
     private void unHide() {
-        binding.fragmentReuPageRecyclerview.setAlpha(1);
-        binding.fragmentReuPageRecyclerview.setClickable(true);
+        binding.reunionsRv.setAlpha(1);
+        binding.reunionsRv.setClickable(true);
 
 
         GradientDrawable backgroundGradient = (GradientDrawable)binding.fragmentReuPageRootview.getBackground();
@@ -90,19 +111,12 @@ public class ReuPageFragment extends Fragment {
 
     }
 
-    @Override
+    /*@Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        //Toast.makeText(getContext(), "SaveInstance", Toast.LENGTH_LONG).show();
-        //outState.putInt("pageItem", viewPager.getCurrentItem());
-    }
+    }*/
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        //Toast.makeText(getContext(), "OnResumeReuFrag", Toast.LENGTH_LONG).show();
-    }
     @Override
     public void onStart() {
         super.onStart();

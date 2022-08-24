@@ -43,12 +43,13 @@ public class DialogFragment extends android.app.DialogFragment {
         mActionOk = view.findViewById(R.id.action_ok);
         mInput = view.findViewById(R.id.input);
 
+        //ViewModel of NewReuActivity associated here
         mNewReuActivity = (NewReuActivity) getActivity();
         NewReuViewModel viewModel = new ViewModelProvider(mNewReuActivity).get(NewReuViewModel.class);
 
 
         viewModel.getPeopleLiveData().observe(mNewReuActivity, people -> previousEntry=people);
-        Log.v("previousEntry", previousEntry);
+        //Log.v("previousEntry", previousEntry);
 
 
         mActionCancel.setOnClickListener(

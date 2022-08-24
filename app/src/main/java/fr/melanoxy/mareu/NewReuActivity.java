@@ -1,28 +1,19 @@
 package fr.melanoxy.mareu;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 
 import android.os.Bundle;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
-import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
-import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -31,6 +22,7 @@ import java.util.Date;
 import fr.melanoxy.mareu.newreu.DialogFragment;
 import fr.melanoxy.mareu.databinding.ActivityNewReuBinding;
 import fr.melanoxy.mareu.newreu.NewReuViewModel;
+import fr.melanoxy.mareu.utils.ViewModelFactory;
 
 public class NewReuActivity extends AppCompatActivity {
 
