@@ -32,4 +32,10 @@
         <item name="boxStrokeWidthFocused">4dp</item>
     </style>
 
+
+    <style name="MyMaterialButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:colorAccent">#FFAB40</item>
+        <item name="android:colorPrimary">#FFAB40</item>
+    </style>
+
 </resources>

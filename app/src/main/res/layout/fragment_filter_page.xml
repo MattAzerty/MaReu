@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_filter_page_rootview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,10 +17,9 @@
         android:layout_marginLeft="60dp"
         android:layout_marginBottom="4dp"
         android:layout_marginTop="4dp"
-        app:strokeWidth="8dp"
-        app:strokeColor="@color/colorPrimary"
+        app:strokeWidth="6dp"
+        app:strokeColor="#FFFFFF"
         app:cardBackgroundColor="@color/colorPrimary"
-        app:cardCornerRadius="16dp"
         app:cardElevation="0dp">
 
         <ScrollView
@@ -29,7 +29,7 @@
             <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
+                android:background="#FFFFFF"
                 android:layout_gravity="top"
                 android:baselineAligned="false"
                 android:id="@+id/relativeLayout">
@@ -42,7 +42,7 @@
                     android:layout_marginRight="20dp"
                     android:background="#00FFFFFF"
                     android:textColor="#FFFFFF"
-                    android:layout_alignRight="@+id/v1"
+                    android:layout_alignRight="@+id/logo"
                     android:layout_alignTop="@+id/logo1"
                     android:textSize="44sp"
                     android:textStyle="bold"
@@ -76,24 +76,15 @@
                     android:background="@color/colorPrimary"
                     app:srcCompat="@drawable/ic_edit_calendar_white_24dp" />
 
-                <View
-                    android:id="@+id/v1"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="4dp"
-                    android:background="#B3FFFFFF"
-                    android:layout_below="@+id/logo"
-                    android:layout_height="8dp"/>
-
                 <TextView
                     android:id="@+id/filtertype"
                     android:layout_width="match_parent"
                     android:layout_height="38dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_margin="12dp"
-                    android:background="@drawable/shape_reu_fragment"
-                    android:backgroundTint="@color/white"
-                    android:layout_below="@+id/v1"
-                    android:textColor="@color/colorPrimary"
+                    android:layout_margin="4dp"
+                    android:background="@color/colorPrimary"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:layout_below="@+id/logo"
+                    android:textColor="#FFFFFF"
                     android:textSize="22sp"
                     android:textStyle="bold"
                     android:gravity="center"
@@ -107,7 +98,7 @@
                     android:max="3"
                     android:progressTint="#001E468A"
                     android:thumbTint="@color/orange"
-                    android:thumb="@drawable/ic_rectangle_white_24dp"
+                    android:thumb="@drawable/ic_circle_white_24dp"
                     android:theme="@style/Widget.AppCompat.SeekBar.Discrete" />
 
                 <TextView
@@ -115,10 +106,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="38dp"
                     android:layout_below="@+id/sb"
-                    android:layout_margin="12dp"
-                    android:textColor="@color/colorPrimary"
-                    android:background="@drawable/shape_reu_fragment"
-                    android:backgroundTint="@color/white"
+                    android:layout_margin="4dp"
+                    android:textColor="#FFFFFF"
+                    android:background="@color/colorPrimary"
+                    android:backgroundTint="@color/colorPrimary"
                     android:textSize="22sp"
                     android:textStyle="bold"
                     android:gravity="center"
@@ -142,11 +133,11 @@
                     android:id="@+id/place"
                     android:layout_width="match_parent"
                     android:layout_height="38dp"
-                    android:layout_margin="12dp"
-                    android:background="@drawable/shape_reu_fragment"
-                    android:backgroundTint="@color/white"
+                    android:layout_margin="4dp"
+                    android:background="@color/colorPrimary"
+                    android:backgroundTint="@color/colorPrimary"
                     android:layout_below="@+id/single_day_picker"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="#FFFFFF"
                     android:textSize="22sp"
                     android:textStyle="bold"
                     android:gravity="center"
@@ -158,11 +149,9 @@
                     android:layout_height="50dp"
                     android:spinnerMode="dropdown"
                     android:entries="@array/Rooms"
-                    android:layout_marginTop="4dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginLeft="8dp"
                     android:layout_below="@+id/place"/>
-
 
             </RelativeLayout>
 

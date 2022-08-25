@@ -44,9 +44,9 @@ public class NewReuActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_new_reu);
 
-        /*getWindow().getDecorView().setSystemUiVisibility(
+        getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|
-                        View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);*/
+                        View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
         //viewBinding
         mNewReuBinding = ActivityNewReuBinding.inflate(getLayoutInflater());
@@ -162,7 +162,7 @@ public class NewReuActivity extends AppCompatActivity {
     private String getDateSelected(){
 
         Date date = mNewReuBinding.newReuSingleDayPicker.getDate();
-        DateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");  ;
+        DateFormat dateFormat = new SimpleDateFormat("HH'h'mm '['yyyy.MM.dd']'");  ;
         String strDate = dateFormat.format(date);
         return strDate;
 

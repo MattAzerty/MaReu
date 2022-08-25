@@ -8,8 +8,8 @@
 
         <ImageView
             android:id="@+id/reunions_item_iv_circle"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="40dp"
+            android:layout_height="56dp"
             android:background="@drawable/circle"
             android:backgroundTint="@color/colorAccent"
             android:layout_marginStart="16dp"
@@ -27,11 +27,13 @@
             android:layout_marginStart="24dp"
             android:layout_marginEnd="8dp"
             android:textStyle="bold"
+            android:singleLine="true"
             android:textColor="@color/black"
             android:textSize="18dp"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toTopOf="@+id/reunions_item_iv_circle"
             app:layout_constraintStart_toEndOf="@id/reunions_item_iv_circle"
+            app:layout_constraintEnd_toStartOf="@+id/reunions_item_iv_delete"
             tools:text="Réunion A - 14h00 - Peach" />
 
         <TextView
@@ -53,12 +55,13 @@
             android:id="@+id/reunions_item_iv_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:padding="16dp"
+            android:layout_marginStart="4dp"
+            android:padding="12dp"
             android:background="?selectableItemBackground"
             android:contentDescription="Delete neighbour"
             android:src="@drawable/ic_baseline_delete_white_24dp"
-            app:tint="@color/colorPrimaryDark"
+            app:tint="#203E71"
+            app:layout_constraintTop_toTopOf="@id/reunions_item_tv_fieldTop"
             app:layout_constraintBottom_toBottomOf="@id/neighbours_item_tv_fieldBottom"
             app:layout_constraintEnd_toEndOf="parent" />
 

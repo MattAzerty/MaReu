@@ -91,20 +91,20 @@ public class ReunionRepository {
     private void generateRandomReu() {
         addReunion(
                 "14h00",
-                "Pièce Soleil",
+                "Soleil",
                 "Réunion A",
                 "maxime@lamzone.com, alex@lamzone.com, paul@lamzone.com"
         );
         addReunion(
                 "08h00",
-                "Pièce Etoile",
-                "Réunion A",
+                "Etoile",
+                "Réunion B",
                 "paul@lamzone.com, viviane@lamzone.com, amandine@lamzone.com"
         );
         addReunion(
                 "08h00",
-                "Pièce Lune",
-                "Réunion A",
+                "Lune",
+                "Réunion C",
                 "amandine@lamzone.com, luc@lamzone.com, jean@lamzone.com"
         );
 

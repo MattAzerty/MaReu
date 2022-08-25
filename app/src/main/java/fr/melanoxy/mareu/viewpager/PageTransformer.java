@@ -15,11 +15,11 @@ public class PageTransformer implements ViewPager2.PageTransformer{
         if (position <= -1) { // [-Infinity,-1)
             // This page is way off-screen to the left.
             view.setAlpha(0.9f);
-            view.setTranslationZ(-1f);
+            //view.setTranslationY(0f);
 
         } else if (position < 0) { // [-1,0]
             view.setX(-1f);
-
+            //view.setTranslationY(MIN_SCALE+(1 - MIN_SCALE) *(pageHeight * -position));
             float scaleFactor = MIN_SCALE
                     + (1 - MIN_SCALE) * (1 - Math.abs(position));
             view.setScaleX(scaleFactor);

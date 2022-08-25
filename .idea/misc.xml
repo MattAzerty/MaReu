@@ -23,6 +23,7 @@
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/drawable/ic_center_focus_strong_white_24dp.xml" value="0.121" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/drawable/ic_dashboard_white_24dp.xml" value="0.181" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/drawable/ic_done_white_24dp.xml" value="0.181" />
+        <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/drawable/ic_expand_circle_down_white_24dp.xml" value="0.12" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/drawable/ic_launcher_background.xml" value="0.181" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/drawable/ic_rectangle_white_24dp.xml" value="0.121" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/drawable/ic_reu_white_24dp.xml" value="0.161" />
@@ -35,6 +36,7 @@
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/drawable/shape_filter_fragment.xml" value="0.181" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/drawable/shape_reu_fragment.xml" value="0.181" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/drawable/shape_textview.xml" value="0.161" />
+        <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/drawable/shape_timepicker.xml" value="0.1" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/drawable/toolbar_bg.xml" value="0.181" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/layout/actionbar_foreground.xml" value="0.21784420289855072" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/layout/activity_main.xml" value="0.25" />
@@ -42,7 +44,7 @@
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/layout/activity_new_reu.xml" value="0.1" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/layout/custom_dialog.xml" value="0.264" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/layout/fragment_dialog.xml" value="0.4" />
-        <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/layout/fragment_filter_page.xml" value="0.1" />
+        <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/layout/fragment_filter_page.xml" value="0.2" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/layout/fragment_page.xml" value="0.21784420289855072" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/layout/fragment_param_page.xml" value="0.12158054711246201" />
         <entry key="..\:/Users/magui/Documents/MaReu/app/src/main/res/layout/fragment_reu_page.xml" value="0.264" />
