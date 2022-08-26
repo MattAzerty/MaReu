@@ -38,4 +38,9 @@
         <item name="android:colorPrimary">#FFAB40</item>
     </style>
 
+    <style name="mySpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
+        <item name="android:textColor">#FFAB40</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
 </resources>

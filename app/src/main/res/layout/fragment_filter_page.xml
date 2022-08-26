@@ -79,10 +79,11 @@
                 <TextView
                     android:id="@+id/filtertype"
                     android:layout_width="match_parent"
-                    android:layout_height="38dp"
+                    android:layout_height="56dp"
                     android:layout_margin="4dp"
                     android:background="@color/colorPrimary"
                     android:backgroundTint="@color/colorPrimary"
+                    android:paddingBottom="20dp"
                     android:layout_below="@+id/logo"
                     android:textColor="#FFFFFF"
                     android:textSize="22sp"
@@ -100,6 +101,59 @@
                     android:thumbTint="@color/orange"
                     android:thumb="@drawable/ic_circle_white_24dp"
                     android:theme="@style/Widget.AppCompat.SeekBar.Discrete" />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="*"
+                    android:layout_above="@+id/sb"
+                    android:layout_alignStart="@+id/sb">
+
+                    <TableRow
+                        android:id="@+id/statusRow"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingStart="24dp"
+                        android:paddingBottom="4dp">
+                        <TextView
+                            android:id="@+id/tv_task_status_newly_developed"
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_column="0"
+                            android:textColor="@android:color/white"
+                            android:textSize="14sp"
+                            android:text="aucun"/>
+                        <TextView
+                            android:id="@+id/tv_task_status_developed"
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_column="1"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/white"
+                            android:text="par date"/>
+                        <TextView
+                            android:id="@+id/tv_task_status_in_progress"
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_column="2"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/white"
+                            android:text="par lieu"/>
+                        <TextView
+                            android:id="@+id/tv_task_status_completed"
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_column="3"
+                            android:textSize="14sp"
+                            android:textColor="@android:color/white"
+                            android:text="les deux"/>
+                    </TableRow>
+
+                </TableLayout>
 
                 <TextView
                     android:id="@+id/date"
@@ -145,12 +199,14 @@
 
                 <Spinner
                     android:id="@+id/spinner_room"
+                    android:theme="@style/mySpinnerItemStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="52dp"
                     android:spinnerMode="dropdown"
                     android:entries="@array/Rooms"
                     android:layout_marginRight="8dp"
                     android:layout_marginLeft="8dp"
+                    android:paddingBottom="4dp"
                     android:layout_below="@+id/place"/>
 
             </RelativeLayout>

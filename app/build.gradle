@@ -56,7 +56,7 @@ dependencies {
     // EVENT BUS
     implementation "org.greenrobot:eventbus:3.3.1"
 
-    //all in one time picker
+    //all in one time picker and animated spinner
     implementation 'com.github.florent37:singledateandtimepicker:2.2.7'
 
     /*Lifecycle-aware components perform actions in response to a change in the lifecycle status of another component,
