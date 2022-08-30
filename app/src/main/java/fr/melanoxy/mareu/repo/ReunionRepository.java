@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -65,6 +66,12 @@ public class ReunionRepository {
         }
 
         reunionsLiveData.setValue(reunions);
+    }
+    //TODO filter reu in Repo
+    public void updateReunion(){
+        List<Reunion> reunions = reunionsLiveData.getValue();
+        reunionsLiveData.setValue(reunions);
+
     }
 
 

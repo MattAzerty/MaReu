@@ -64,7 +64,7 @@ public class NewReuActivity extends AppCompatActivity {
         //SingleLiveEvent to close the activity
         viewModel.getCloseActivitySingleLiveEvent().observe(this, aVoid -> finish());
 
-        //Spinner listener
+        //Date listener
         bindDate(viewModel);
         //TextChanged listener
         bindSubject(viewModel);
