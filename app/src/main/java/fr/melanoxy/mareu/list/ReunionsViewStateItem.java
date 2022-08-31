@@ -4,6 +4,12 @@ import androidx.annotation.NonNull;
 
 import java.util.Objects;
 
+/**
+ * Le ViewState sert à représenter l'état de la vue.<br/>
+ *
+ * Il contient toutes les données "dynamiques" de la vue ( = les données qui peuvent changer pendant l'utilisation de l'app)
+ */
+
 public class ReunionsViewStateItem {
 
     private final long id;
@@ -31,6 +37,9 @@ public class ReunionsViewStateItem {
     public String getFieldBottom() {
         return fieldBottom;
     }
+
+    // Les fonctions equals(), hashcode() et sont utiles pour les tests unitaires (dans les assertions)
+    // et peuvent être autogénérées avec Alt + Inser
 
     @Override
     public boolean equals(Object o) {

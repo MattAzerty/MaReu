@@ -1,8 +1,11 @@
 package fr.melanoxy.mareu.list;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
@@ -11,96 +14,175 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import fr.melanoxy.mareu.repo.Reunion;
 import fr.melanoxy.mareu.repo.ReunionRepository;
 
 public class MaReuViewModel extends ViewModel {
 
+
     @NonNull
     private final ReunionRepository reunionRepository;
-    private int mFilterType = 0;
-    private String mFilterDate = "";
+    private final MediatorLiveData<List<ReunionsViewStateItem>> myMediatorLiveData = new MediatorLiveData<>();
+
+    //InfoFilter to get number of result from filterfragment
+    private String initInfoFilter ="";
+    private final MutableLiveData<String> infoFilterMutableLiveData = new MutableLiveData<>(initInfoFilter);
 
     public MaReuViewModel(@NonNull ReunionRepository reunionRepository) {
         this.reunionRepository = reunionRepository;
-    }
 
+        // Attention au bug !! Quand on utilise un mediatorLiveData, lorsqu'on fait les "addSource", il faut bien utiliser la même variable
+        // dans le "addSource" et dans le onChanged des autres sources (quand on fait "filterTypeLiveData.getValue()" par exemple)
+        final LiveData<List<Reunion>> reunionsLiveData = reunionRepository.getReunionsLiveData();
+        LiveData<Integer> filterTypeLiveData = reunionRepository.getFilterTypeLiveData();
+        LiveData<Date> filterDateLiveData = reunionRepository.getFilterDateLiveData();
+        LiveData<String> filterRoomLiveData = reunionRepository.getFilterRoomLiveData();
 
-    /*//Filter type selector
-    private Integer initSelector =0;
-    private final MutableLiveData<Integer> filterSelectorMutableLiveData = new MutableLiveData<>(initSelector);
-
-    //Filter date choice
-    private Date iniDate = new Date();
-    private final MutableLiveData<Date> filterDateMutableLiveData = new MutableLiveData<>(iniDate);
-
-    //Filter place choice
-    private Integer initPlace =0;
-    private final MutableLiveData<Integer> filterPlaceMutableLiveData = new MutableLiveData<>(initPlace);*/
-
-
-
-    public LiveData<List<ReunionsViewStateItem>> getReunionsViewStateItemLiveData(){
-
-        return Transformations.map(reunionRepository.getReunionsLiveData(), reunions -> {
-            List<ReunionsViewStateItem> reunionsViewStateItems = new ArrayList<>();
-
-            // This is called mapping !
-            // Ask your mentor why it is important to separate "data" models (like Neighbour class)
-            // and "view" models (like NeighboursViewStateItem)
-            for (Reunion reunion : reunions) {
-
-                if(mFilterType==0){
-                reunionsViewStateItems.add(
-                            new ReunionsViewStateItem(
-                                    reunion.getId(),
-                                    reunion.getSubject()+" - "+reunion.getDate()+" - "+reunion.getPlace(),
-                                    reunion.getPeople()
-                            )
-                    );
-                }
-
-            else if(mFilterType==1){
-                if(reunion.getDate().contains(mFilterDate)){
-                    reunionsViewStateItems.add(
-                            new ReunionsViewStateItem(
-                                    reunion.getId(),
-                                    reunion.getSubject()+" - "+reunion.getDate()+" - "+reunion.getPlace(),
-                                    reunion.getPeople()
-                            )
-                    );
-
-                }
-
-
-                }
-
-
+        myMediatorLiveData.addSource(reunionsLiveData, new Observer<List<Reunion>>() {
+            @Override
+            public void onChanged(List<Reunion> reunions) {
+                combine(reunions, filterTypeLiveData.getValue(), filterDateLiveData.getValue(), filterRoomLiveData.getValue());
             }
-
-            return reunionsViewStateItems;
         });
+
+        myMediatorLiveData.addSource(filterTypeLiveData, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer type) {
+                combine(reunionsLiveData.getValue(), type, filterDateLiveData.getValue(), filterRoomLiveData.getValue());
+            }
+        });
+
+        myMediatorLiveData.addSource(filterDateLiveData, new Observer<Date>() {
+            @Override
+            public void onChanged(Date date) {
+                combine(reunionsLiveData.getValue(), filterTypeLiveData.getValue(), date, filterRoomLiveData.getValue());
+            }
+        });
+
+        myMediatorLiveData.addSource(filterRoomLiveData, new Observer<String>() {
+            @Override
+            public void onChanged(String room) {
+                combine(reunionsLiveData.getValue(), filterTypeLiveData.getValue(), filterDateLiveData.getValue(), room);
+            }
+        });
+
+
     }
 
-    /*public LiveData<Integer> getFilterSelectorMutableLiveData() {
-        return filterSelectorMutableLiveData;
-    }*/
+    private void combine(@Nullable final List<Reunion> reunions, @Nullable Integer type, @Nullable Date date, @Nullable String room) {
 
-    public void onFilterTypeChanged(int type, Date date, String room) {
-        mFilterType=type;
+        if (type == null || date == null || room == null) {
+            throw new IllegalStateException("All internal LiveData must be initialized !");
+
+        }
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");  ;
         String strDate = dateFormat.format(date);
-        mFilterDate=strDate;
-        reunionRepository.updateReunion();
+
+        // Filter reunion with parameters
+        List<Reunion> filteredReunions = getFilteredReunions(reunions, type, date, room);
+
+        // map on a ViewStateItem
+        List<ReunionsViewStateItem> reunionsViewStateItem = new ArrayList<>();
+        for (Reunion filteredReunion : filteredReunions) {
+            reunionsViewStateItem.add(mapReunion(filteredReunion));
+        }
 
 
+        myMediatorLiveData.setValue(reunionsViewStateItem);
+    }
+
+    // Getter typé en LiveData (et pas MediatorLiveData pour éviter la modification de la valeur de la LiveData dans la View)
+    public LiveData<List<ReunionsViewStateItem>> getViewStateLiveData() {
+        return myMediatorLiveData;
+    }
+
+    public LiveData<String> getInfoFilterLiveData() {
+        return infoFilterMutableLiveData;
+    }
+
+    @NonNull
+    private List<Reunion> getFilteredReunions(
+            @Nullable final List<Reunion> reunions,
+            @Nullable Integer type,
+            @Nullable Date date,
+            @Nullable String room
+    ) {
+        List<Reunion> filteredReunions = new ArrayList<>();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");  ;
+        String strDate = dateFormat.format(date);
+
+
+        if (reunions == null) {
+            return filteredReunions;
+        }
+
+        for (Reunion reunion : reunions) {
+
+            switch(type){
+
+                case 0://No filter
+                    filteredReunions.add(reunion);
+                    break;
+
+                case 1://Date filter
+                    if(reunion.getDate().contains(strDate)){
+                        filteredReunions.add(reunion);
+                    }
+                    break;
+
+                case 2://Room filter
+                    if(reunion.getPlace().contains(room)){
+                        filteredReunions.add(reunion);
+                    }
+                    break;
+
+                case 3://Date and Room filter
+                    if(reunion.getPlace().contains(room) && reunion.getDate().contains(strDate)){
+                        filteredReunions.add(reunion);
+                    break;
+
+            }
+        }}
+
+        Integer numberOfEntryFound = filteredReunions.size();
+        infoFilterMutableLiveData.setValue("- "+numberOfEntryFound.toString()+" résultat(s) trouvé(s) -");
+        return filteredReunions;
+    }
+
+    // This is here we transform the "raw data" (Reunion) into a "user pleasing" view model (ReunionViewStateItem)
+    // Reunion is for databases, it has technical values
+    // ReunionsViewStateItem is for the view (Activity or Fragment), it mostly has Strings or Android Resource Identifiers
+    @NonNull
+    private ReunionsViewStateItem mapReunion(@NonNull Reunion reunion) {
+        return new ReunionsViewStateItem(
+                reunion.getId(),
+                reunion.getSubject()+" - "+reunion.getDate()+" - "+reunion.getPlace(),
+                reunion.getPeople()
+                    );
     }
 
 
+    public void onFilterTypeChanged(int type) {
+        reunionRepository.filterType(type);
+    }
+
+    public void onFilterDateChanged(Date date) {
+        reunionRepository.filterDate(date);
+    }
+
+    public void onFilterRoomChanged(String room) {
+        reunionRepository.filterRoom(room);
+    }
+
     public void onDeleteReunionClicked(long reunionId) {
         reunionRepository.deleteReunion(reunionId);
+    }
+
+    public void onClearReunionsClicked() {
+        reunionRepository.clearReunion();
     }
 
 

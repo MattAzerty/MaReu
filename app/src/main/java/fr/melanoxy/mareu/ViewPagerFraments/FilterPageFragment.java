@@ -11,9 +11,12 @@ import androidx.lifecycle.ViewModelProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+
+import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 
 import java.util.Date;
 
@@ -69,9 +72,13 @@ public class FilterPageFragment extends Fragment {
         mMaReuActivity = (MaReuActivity) getActivity();
         MaReuViewModel viewModel = new ViewModelProvider(mMaReuActivity).get(MaReuViewModel.class);
 
+        viewModel.getInfoFilterLiveData().observe(mMaReuActivity, infofilter -> binding.fragmentFilterPageTvResultfilter.setText(infofilter));
 
-        //Filter type listener
-        bindFilterType(viewModel);
+
+        //listener
+        bindFilterType(viewModel);//seekBar
+        bindFilterDate(viewModel);//TimePicker
+        bindFilterRoom(viewModel);//spinner
 
 
     }
@@ -92,10 +99,33 @@ public class FilterPageFragment extends Fragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 // TODO Auto-generated method stub
-                Date date = binding.singleDayPicker.getDate();
-                String place = String.valueOf(binding.spinnerRoom.getSelectedItem());
-                viewModel.onFilterTypeChanged(progress, date, place);
-                Toast.makeText(getContext(), String.valueOf(progress), Toast.LENGTH_LONG).show();
+                //Date date = binding.singleDayPicker.getDate();
+                //String place = String.valueOf(binding.spinnerRoom.getSelectedItem());
+                viewModel.onFilterTypeChanged(progress);
+                //Toast.makeText(getContext(), String.valueOf(progress), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void bindFilterDate(MaReuViewModel viewModel) {
+
+        SingleDateAndTimePicker.OnDateChangedListener changeListener = (displayed, date) -> viewModel.onFilterDateChanged(date);
+        binding.singleDayPicker.addOnDateChangedListener(changeListener);
+
+        //viewModel.getDateLiveData().observe(this, date -> mNewReuBinding.newReuSingleDayPicker.setDefaultDate(date));
+    }
+
+    private void bindFilterRoom(MaReuViewModel viewModel) {
+
+        binding.spinnerRoom.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                String room = parent.getItemAtPosition(position).toString(); //this is your selected item
+                viewModel.onFilterRoomChanged(room);
+            }
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+
             }
         });
     }

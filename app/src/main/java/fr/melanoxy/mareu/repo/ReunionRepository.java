@@ -20,6 +20,12 @@ public class ReunionRepository {
     private final MutableLiveData<List<Reunion>> reunionsLiveData = new MutableLiveData<>(new ArrayList<>());
 
     private long maxId = 0;
+    private Date iniDate = new Date();
+
+    private final MutableLiveData<Integer> filterTypeLiveData = new MutableLiveData<>(0);
+    private final MutableLiveData<Date> filterDateLiveData = new MutableLiveData<>(iniDate);
+    private final MutableLiveData<String> filterRoomLiveData = new MutableLiveData<>("Soleil");
+
 
     public ReunionRepository(BuildConfigResolver buildConfigResolver) {
         // At startup, when creating repo, if we're in debug mode, add random Neighbours
@@ -67,17 +73,69 @@ public class ReunionRepository {
 
         reunionsLiveData.setValue(reunions);
     }
-    //TODO filter reu in Repo
-    public void updateReunion(){
-        List<Reunion> reunions = reunionsLiveData.getValue();
-        reunionsLiveData.setValue(reunions);
 
-    }
+
 
 
     public LiveData<List<Reunion>> getReunionsLiveData() {
         return reunionsLiveData;
     }
+
+
+    public LiveData<Integer> getFilterTypeLiveData() {
+        return filterTypeLiveData;
+    }
+
+    public LiveData<Date> getFilterDateLiveData() {
+        return filterDateLiveData;
+    }
+
+    public LiveData<String> getFilterRoomLiveData() {
+        return filterRoomLiveData;
+    }
+
+    public void filterType(int type) {
+        Integer previousValue = filterTypeLiveData.getValue();
+
+        if (previousValue == null) {
+            previousValue = 0;
+        }
+
+        Integer newValue = type;
+
+        // On change la valeur de la LiveData, cela va activer l'Observer qui regarde cette LiveData (comme dans le MainViewModel) et
+        // provoquer l'appel de la méthode "combine" du MainViewModel avec les nouvelles valeurs
+        filterTypeLiveData.setValue(newValue);
+    }
+
+    public void filterDate(Date date) {
+        Date previousValue = filterDateLiveData.getValue();
+
+        if (previousValue == null) {
+            previousValue = new Date();
+        }
+
+        Date newValue = date;
+
+        // On change la valeur de la LiveData, cela va activer l'Observer qui regarde cette LiveData (comme dans le MainViewModel) et
+        // provoquer l'appel de la méthode "combine" du MainViewModel avec les nouvelles valeurs
+        filterDateLiveData.setValue(newValue);
+    }
+
+    public void filterRoom(String room) {
+        String previousValue = filterRoomLiveData.getValue();
+
+        if (previousValue == null) {
+            previousValue = "Soleil";
+        }
+
+        String newValue = room;
+
+        // On change la valeur de la LiveData, cela va activer l'Observer qui regarde cette LiveData (comme dans le MainViewModel) et
+        // provoquer l'appel de la méthode "combine" du MainViewModel avec les nouvelles valeurs
+        filterRoomLiveData.setValue(newValue);
+    }
+
 
     public LiveData<Reunion> getNeighbourLiveData(long reunionId) {
         // We use a Transformation here so whenever the neighboursLiveData changes, the underlying lambda will be called too, and
@@ -94,6 +152,24 @@ public class ReunionRepository {
             return null;
         });
     }
+
+    public void clearReunion(){
+        //reunionsLiveData.setValue(null);
+
+        List<Reunion> reunions = reunionsLiveData.getValue();
+
+        if (reunions == null) return;
+
+        for (Iterator<Reunion> iterator = reunions.iterator(); iterator.hasNext(); ) {
+            Reunion reunion = iterator.next();
+
+                iterator.remove();
+
+        }
+
+        reunionsLiveData.setValue(reunions);
+
+            }
 
     private void generateRandomReu() {
         addReunion(

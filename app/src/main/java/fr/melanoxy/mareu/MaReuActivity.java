@@ -6,6 +6,7 @@ import static android.content.ContentValues.TAG;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager2.widget.ViewPager2;
 
 
@@ -45,7 +46,6 @@ public class MaReuActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
 
         //binding ActivityMain layout
@@ -53,13 +53,11 @@ public class MaReuActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        //Configure ViewPager
-        this.configureViewPagerAndTabs();
-
-
         //Associating ViewModel with the Activity
         MaReuViewModel viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(MaReuViewModel.class);
 
+        //Configure ViewPager
+        this.configureViewPagerAndTabs();
 
         //Configure the action bar
         setSupportActionBar(binding.toolbar);
@@ -253,16 +251,18 @@ public class MaReuActivity extends AppCompatActivity {
 
     public void selectDrawerItem(MenuItem menuItem) {
 
+        //Associating ViewModel with the Activity
+        MaReuViewModel viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(MaReuViewModel.class);
 
         switch(menuItem.getItemId()) {
             case R.id.activity_main_drawer_news:
                 binding.activityMainViewpager.setCurrentItem(0);
                 break;
-            case R.id.activity_main_drawer_profile:
+            case R.id.activity_main_drawer_filter:
                 binding.activityMainViewpager.setCurrentItem(1);
                 break;
-            case R.id.activity_main_drawer_settings:
-                binding.activityMainViewpager.setCurrentItem(2);
+            case R.id.activity_main_drawer_clear:
+                viewModel.onClearReunionsClicked();
                 break;
             default:
                 binding.activityMainViewpager.setCurrentItem(0);

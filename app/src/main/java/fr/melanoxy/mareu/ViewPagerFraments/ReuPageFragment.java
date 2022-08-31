@@ -83,7 +83,7 @@ public class ReuPageFragment extends Fragment {
         });
         binding.reunionsRv.setAdapter(adapter);
 
-        viewModel.getReunionsViewStateItemLiveData().observe(getViewLifecycleOwner(), reunionsViewStateItems ->
+        viewModel.getViewStateLiveData().observe(getViewLifecycleOwner(), reunionsViewStateItems ->
                 adapter.submitList(reunionsViewStateItems)
         );
 

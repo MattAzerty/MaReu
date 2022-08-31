@@ -210,6 +210,21 @@
                     android:paddingBottom="4dp"
                     android:layout_below="@+id/place"/>
 
+                <TextView
+                    android:id="@+id/fragment_filter_page_tv_resultfilter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:textColor="#FFFFFF"
+                    android:paddingTop="18dp"
+                    android:paddingBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:elevation="12dp"
+                    android:layout_below="@+id/spinner_room"
+                    android:text="this is a placeholder" />
+
             </RelativeLayout>
 
         </ScrollView>
