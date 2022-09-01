@@ -28,8 +28,8 @@ public class NewReuActivity extends AppCompatActivity {
 
     // Initialize variables
     private ActivityNewReuBinding mNewReuBinding;
-    private NewReuViewModel mViewModel;
     private String editedPeople ="";
+    private String initPeople = "nom1@entreprise.com;\nnom2@entreprise.com;\nnom3@entreprise.com;";
 
 
     @Override
@@ -86,7 +86,7 @@ public class NewReuActivity extends AppCompatActivity {
             }
         });
 
-/*
+
         mNewReuBinding.newReuRemovePeopleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,7 +108,7 @@ public class NewReuActivity extends AppCompatActivity {
 
                     editedPeople = "";
                 } }
-        });*/
+        });
 
 
     }

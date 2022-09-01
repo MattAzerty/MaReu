@@ -216,7 +216,7 @@
                 android:inputType="none"
                 android:focusable="false"
                 android:hint="Qui ?"
-                android:text="nom1@entreprise.com;\nnom2@entreprise.com;\nnom3@entreprise.com;" />
+                android:text="@string/initpeople" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

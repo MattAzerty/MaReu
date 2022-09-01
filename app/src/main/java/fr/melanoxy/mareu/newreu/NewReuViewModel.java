@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.util.Date;
+import java.util.Locale;
 
 import fr.melanoxy.mareu.events.SingleLiveEvent;
 import fr.melanoxy.mareu.repo.ReunionRepository;
@@ -30,6 +31,13 @@ public class NewReuViewModel extends ViewModel {
     //DATE to handle rotation of the screen
     private Date date = new Date();
     private final MutableLiveData<Date> dateMutableLiveData = new MutableLiveData<>(date);
+
+    //ERROR message for fragment dialog
+    private String errorMessageIni = "";
+    private final MutableLiveData<String> errorPeopleMutableLiveData = new MutableLiveData<>(errorMessageIni);
+
+    // OK Button enable or not ? Where View.Visible = 0, View.Invisible = 4 & View.Gone = 8.
+    private final MutableLiveData<Integer> isOkButtonEnabledMutableLiveData = new MutableLiveData<>(8);
 
     //PEOPLE to get access from DialogFragment
     private String initPeople ="nom1@entreprise.com;\nnom2@entreprise.com;\nnom3@entreprise.com;";
@@ -61,9 +69,17 @@ public class NewReuViewModel extends ViewModel {
         return peopleMutableLiveData;
     }
 
+    public MutableLiveData<String> getErrorPeopleMutableLiveData() {
+        return errorPeopleMutableLiveData;
+    }
+
     //getter for closeActivitySingleLiveEvent
     public SingleLiveEvent<Void> getCloseActivitySingleLiveEvent() {
         return closeActivitySingleLiveEvent;
+    }
+
+    public MutableLiveData<Integer> getIsOkButtonEnabledMutableLiveData() {
+        return isOkButtonEnabledMutableLiveData;
     }
 
     //method called to set CreateButton state
@@ -77,8 +93,12 @@ public class NewReuViewModel extends ViewModel {
     }
 
     //method called when dialogue is used
-    public void onPeopleAdded(String people) {
-        peopleMutableLiveData.setValue(people);
+    public void onPeopleAdded(String peoples, String people) {
+        String outPeople;
+        if(peoples.equals(initPeople)){
+            outPeople = people+";";
+        }else{outPeople = peoples+"\n"+people+";";}
+        peopleMutableLiveData.setValue(outPeople);
     }
 
     public void onAddButtonClicked(
@@ -98,4 +118,43 @@ public class NewReuViewModel extends ViewModel {
         closeActivitySingleLiveEvent.call();
     }
 
+    public void onPeopleChanged(String people, String previousEntry) {
+
+        //get input mail
+        String input = people.toLowerCase(Locale.ROOT).trim();
+        // 1=error
+        int duplicateError = (previousEntry.contains(input)) ? 1 : 0;
+        int syntaxError = (!(input.contains("@lamzone.com"))) ? 1 : 0;
+
+
+        if (syntaxError == 0 && duplicateError == 0) {
+
+            errorPeopleMutableLiveData.setValue("");
+            isOkButtonEnabledMutableLiveData.setValue(0);
+
+        } else {
+
+            String dialogError;
+
+            switch (10 * syntaxError + duplicateError) {
+
+                case 10:
+                    dialogError = "Erreur de syntaxe ";
+                    break;
+                case 1:
+                    dialogError = "Déjà présent ";
+                    break;
+                case 11:
+                    dialogError = "Erreur de syntaxe ";
+                    break;
+                default:
+                    dialogError = "";
+
+            }
+
+            errorPeopleMutableLiveData.setValue(dialogError);
+            isOkButtonEnabledMutableLiveData.setValue(8);
+        }
+
+    }
 }

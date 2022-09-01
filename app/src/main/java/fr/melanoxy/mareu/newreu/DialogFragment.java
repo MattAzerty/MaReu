@@ -2,6 +2,8 @@ package fr.melanoxy.mareu.newreu;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +29,7 @@ public class DialogFragment extends android.app.DialogFragment {
     public OnInputListener mOnInputListener;
 
     private EditText mInput;
-    private TextView mActionOk, mActionCancel;
+    private TextView mActionOk, mActionCancel, errorField;
     private NewReuActivity mNewReuActivity;
     private String previousEntry;
 
@@ -42,6 +44,7 @@ public class DialogFragment extends android.app.DialogFragment {
                 = view.findViewById(R.id.action_cancel);
         mActionOk = view.findViewById(R.id.action_ok);
         mInput = view.findViewById(R.id.input);
+        errorField = view.findViewById(R.id.error_message);
 
         //ViewModel of NewReuActivity associated here
         mNewReuActivity = (NewReuActivity) getActivity();
@@ -49,6 +52,8 @@ public class DialogFragment extends android.app.DialogFragment {
 
 
         viewModel.getPeopleLiveData().observe(mNewReuActivity, people -> previousEntry=people);
+        viewModel.getErrorPeopleMutableLiveData().observe(mNewReuActivity, errorMessage -> errorField.setText(errorMessage) );
+        viewModel.getIsOkButtonEnabledMutableLiveData().observe(mNewReuActivity, status -> mActionOk.setVisibility(status));
         //Log.v("previousEntry", previousEntry);
 
 
@@ -60,65 +65,38 @@ public class DialogFragment extends android.app.DialogFragment {
                     }
                 });
 
+        mInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                viewModel.onPeopleChanged(s.toString(), previousEntry);
+            }
+        });
+
         mActionOk.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        //mOnInputListener = (OnInputListener) getActivity();
                         //get input mail
                         String input = mInput.getText().toString().toLowerCase(Locale.ROOT).trim();
-                        // 1=error
-                        int duplicateError = (previousEntry.contains(input)) ? 1 : 0;
-                        int syntaxError = (!(input.contains("@lamzone.com"))) ? 1 : 0;
 
-
-                        if (syntaxError == 0 && duplicateError == 0) {
-                            //Update livedata
-                            viewModel.onPeopleAdded(input);
+                        //Update livedata
+                            viewModel.onPeopleAdded(previousEntry, input);
                             getDialog().dismiss();
-                        } else {
-
-                            String dialogError;
-
-                            switch (10 * syntaxError + duplicateError) {
-
-                                case 10:
-                                    dialogError = "Erreur de syntaxe ";
-                                    break;
-                                case 1:
-                                    dialogError = "Déjà présent ";
-                                    break;
-
-                                default:
-                                    dialogError = "erreur";
-                            }
-
-                            mInput.setText(dialogError);
                         }
 
-                    }
                 });
 
         return view;
     }
-
-    /*@Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            mOnInputListener
-                    = (OnInputListener) getActivity();
-        } catch (ClassCastException e) {
-
-        }
-    }*/
-
-    /*public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        model = new ViewModelProvider(getActivity()).get(NewReuViewModel.class);
-                    model.getPeople();;
-    }*/
 
 
 }

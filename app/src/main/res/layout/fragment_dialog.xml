@@ -18,26 +18,25 @@
             android:id="@+id/heading"/>
 
 
-
         <EditText
+            android:id="@+id/input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/heading"
             android:layout_marginTop="20dp"
             android:background="@null"
-            android:textColor="#000"
             android:hint="exemple: nom@lamzone.com"
-            android:id="@+id/input"/>
+            android:textColor="#000" />
 
         <TextView
+            android:id="@+id/error_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=""
             android:layout_below="@id/input"
             android:layout_marginTop="12dp"
-            android:textSize="18sp"
+            android:text=":error!:"
             android:textColor="#FF0000"
-            android:id="@+id/error_message"/>
+            android:textSize="18sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -46,6 +45,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
+            android:visibility="gone"
             android:textSize="18sp"
             android:textColor="#33bbff"
             android:id="@+id/action_ok"/>

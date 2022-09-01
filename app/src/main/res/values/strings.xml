@@ -9,6 +9,7 @@
     <string name="reu"> - Mes réunions - </string>
     <string name="filter">Param. de filtrage</string>
     <string name="clear">CLEAR</string>
+    <string name="initpeople">nom1@entreprise.com;\nnom2@entreprise.com;\nnom3@entreprise.com;</string>
 
     <string name="Soleil">Soleil</string>
     <string name="Etoile">Etoile</string>
