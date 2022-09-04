@@ -1,5 +1,6 @@
 package fr.melanoxy.mareu.ViewPagerFraments;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 
@@ -8,26 +9,28 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.text.Html;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.NumberPicker;
+import android.widget.PopupWindow;
 import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 
-import java.util.Date;
+import java.util.Calendar;
 
 import fr.melanoxy.mareu.MaReuActivity;
 import fr.melanoxy.mareu.R;
 import fr.melanoxy.mareu.databinding.FragmentFilterPageBinding;
-import fr.melanoxy.mareu.databinding.FragmentReuPageBinding;
 import fr.melanoxy.mareu.list.MaReuViewModel;
-import fr.melanoxy.mareu.list.OnReunionClickedListener;
-import fr.melanoxy.mareu.list.ReunionsAdapter;
-import fr.melanoxy.mareu.newreu.NewReuViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -79,6 +82,7 @@ public class FilterPageFragment extends Fragment {
         bindFilterType(viewModel);//seekBar
         bindFilterDate(viewModel);//TimePicker
         bindFilterRoom(viewModel);//spinner
+        bindFilterYear(viewModel);//timePicker
 
 
     }
@@ -129,5 +133,64 @@ public class FilterPageFragment extends Fragment {
             }
         });
     }
+
+    private void bindFilterYear(MaReuViewModel viewModel) {
+
+        binding.year.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                View popupView = getLayoutInflater().inflate(R.layout.popup_layout, null);
+
+                PopupWindow popupWindow = new PopupWindow(popupView,
+                        ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+
+                // Initialize more widgets from `popup_layout.xml`
+
+                Calendar cal = Calendar.getInstance();
+
+                final NumberPicker monthPicker = (NumberPicker) popupView.findViewById(R.id.picker_month);
+                final NumberPicker yearPicker = (NumberPicker) popupView.findViewById(R.id.picker_year);
+
+                monthPicker.setMinValue(1);
+                monthPicker.setMaxValue(12);
+                monthPicker.setValue(cal.get(Calendar.MONTH) + 1);
+
+                int year = cal.get(Calendar.YEAR);
+                yearPicker.setMinValue(year-10);
+                yearPicker.setMaxValue(year+10);
+                yearPicker.setValue(Integer.valueOf(binding.year.getText().toString()));
+
+                yearPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+                    @Override
+                    public void onValueChange(NumberPicker numberPicker, int i, int i2) {
+
+                        binding.year.setText(Integer.toString(i2));
+
+                    }
+                });
+
+                // If the PopupWindow should be focusable
+                popupWindow.setFocusable(true);
+
+                // If you need the PopupWindow to dismiss when when touched outside
+                popupWindow.setBackgroundDrawable(new ColorDrawable());
+
+                int location[] = new int[2];
+
+                // Get the View's(the one that was clicked in the Fragment) location
+                view.getLocationOnScreen(location);
+
+                // Using location, the PopupWindow will be displayed right under anchorView
+                popupWindow.showAtLocation(view, Gravity.NO_GRAVITY,
+                        location[1] +view.getLeft(), location[1] + view.getHeight());
+
+            }
+
+        });
+
+    }
+
 
 }//END
