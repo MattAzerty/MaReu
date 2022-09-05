@@ -1,4 +1,4 @@
-package fr.melanoxy.mareu.list;
+package fr.melanoxy.mareu.ui.list;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import java.text.DateFormat;
@@ -14,10 +13,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-import fr.melanoxy.mareu.repo.Reunion;
-import fr.melanoxy.mareu.repo.ReunionRepository;
+import fr.melanoxy.mareu.data.Reunion;
+import fr.melanoxy.mareu.data.ReunionRepository;
 
 public class MaReuViewModel extends ViewModel {
 

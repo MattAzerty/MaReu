@@ -1,4 +1,4 @@
-package fr.melanoxy.mareu.list;
+package fr.melanoxy.mareu.ui.list;
 
 public interface OnReunionClickedListener {
     void onReunionClicked(long neighbourId);

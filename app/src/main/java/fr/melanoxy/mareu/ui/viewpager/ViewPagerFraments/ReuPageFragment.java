@@ -1,4 +1,4 @@
-package fr.melanoxy.mareu.ViewPagerFraments;
+package fr.melanoxy.mareu.ui.viewpager.ViewPagerFraments;
 
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,13 +16,13 @@ import android.widget.Toast;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import fr.melanoxy.mareu.MaReuActivity;
-import fr.melanoxy.mareu.list.ReunionsAdapter;
+import fr.melanoxy.mareu.ui.MaReuActivity;
+import fr.melanoxy.mareu.ui.list.ReunionsAdapter;
 import fr.melanoxy.mareu.R;
 import fr.melanoxy.mareu.databinding.FragmentReuPageBinding;
-import fr.melanoxy.mareu.events.FragmentEvent;
-import fr.melanoxy.mareu.list.MaReuViewModel;
-import fr.melanoxy.mareu.list.OnReunionClickedListener;
+import fr.melanoxy.mareu.ui.events.FragmentEvent;
+import fr.melanoxy.mareu.ui.list.MaReuViewModel;
+import fr.melanoxy.mareu.ui.list.OnReunionClickedListener;
 
 /**
  * A simple {@link Fragment} subclass.

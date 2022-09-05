@@ -1,4 +1,4 @@
-package fr.melanoxy.mareu.ViewPagerFraments;
+package fr.melanoxy.mareu.ui.viewpager.ViewPagerFraments;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -9,7 +9,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.text.Html;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,19 +17,16 @@ import android.widget.AdapterView;
 import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.SeekBar;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 
 import java.util.Calendar;
 
-import fr.melanoxy.mareu.MaReuActivity;
+import fr.melanoxy.mareu.ui.MaReuActivity;
 import fr.melanoxy.mareu.R;
 import fr.melanoxy.mareu.databinding.FragmentFilterPageBinding;
-import fr.melanoxy.mareu.list.MaReuViewModel;
+import fr.melanoxy.mareu.ui.list.MaReuViewModel;
 
 /**
  * A simple {@link Fragment} subclass.

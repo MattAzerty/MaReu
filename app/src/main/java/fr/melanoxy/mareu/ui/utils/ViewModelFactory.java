@@ -1,4 +1,4 @@
-package fr.melanoxy.mareu.utils;
+package fr.melanoxy.mareu.ui.utils;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 //import fr.melanoxy.mareu.filter.FilterPageViewModel;
 import fr.melanoxy.mareu.config.BuildConfigResolver;
-import fr.melanoxy.mareu.list.MaReuViewModel;
-import fr.melanoxy.mareu.newreu.NewReuViewModel;
-import fr.melanoxy.mareu.repo.ReunionRepository;
+import fr.melanoxy.mareu.ui.list.MaReuViewModel;
+import fr.melanoxy.mareu.ui.newreu.NewReuViewModel;
+import fr.melanoxy.mareu.data.ReunionRepository;
 
 public class ViewModelFactory implements ViewModelProvider.Factory {
 

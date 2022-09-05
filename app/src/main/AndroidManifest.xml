@@ -4,7 +4,7 @@
     package="fr.melanoxy.mareu">
 
     <application
-        android:name=".utils.MainApplication"
+        android:name=".MainApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -15,10 +15,10 @@
         android:theme="@style/Theme.MaReu"
         tools:targetApi="31">
         <activity
-            android:name=".NewReuActivity"
+            android:name=".ui.NewReuActivity"
             android:exported="false" />
         <activity
-            android:name=".MaReuActivity"
+            android:name=".ui.MaReuActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

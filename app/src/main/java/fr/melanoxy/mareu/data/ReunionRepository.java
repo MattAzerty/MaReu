@@ -1,4 +1,4 @@
-package fr.melanoxy.mareu.repo;
+package fr.melanoxy.mareu.data;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

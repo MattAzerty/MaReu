@@ -1,4 +1,4 @@
-package fr.melanoxy.mareu;
+package fr.melanoxy.mareu.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,10 +19,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import fr.melanoxy.mareu.newreu.DialogFragment;
+import fr.melanoxy.mareu.R;
+import fr.melanoxy.mareu.ui.newreu.DialogFragment;
 import fr.melanoxy.mareu.databinding.ActivityNewReuBinding;
-import fr.melanoxy.mareu.newreu.NewReuViewModel;
-import fr.melanoxy.mareu.utils.ViewModelFactory;
+import fr.melanoxy.mareu.ui.newreu.NewReuViewModel;
+import fr.melanoxy.mareu.ui.utils.ViewModelFactory;
 
 public class NewReuActivity extends AppCompatActivity {
 

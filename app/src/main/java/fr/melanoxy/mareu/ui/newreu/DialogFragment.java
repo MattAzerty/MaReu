@@ -1,10 +1,8 @@
-package fr.melanoxy.mareu.newreu;
+package fr.melanoxy.mareu.ui.newreu;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Locale;
 
-import fr.melanoxy.mareu.NewReuActivity;
+import fr.melanoxy.mareu.ui.NewReuActivity;
 import fr.melanoxy.mareu.R;
 
 public class DialogFragment extends android.app.DialogFragment {

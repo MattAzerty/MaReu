@@ -1,4 +1,4 @@
-package fr.melanoxy.mareu;
+package fr.melanoxy.mareu.ui;
 
 
 import static android.content.ContentValues.TAG;
@@ -6,11 +6,9 @@ import static android.content.ContentValues.TAG;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager2.widget.ViewPager2;
 
 
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -19,7 +17,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.shape.CornerFamily;
@@ -29,11 +26,13 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Method;
 
+import fr.melanoxy.mareu.R;
 import fr.melanoxy.mareu.databinding.ActivityMainBinding;
-import fr.melanoxy.mareu.events.FragmentEvent;
-import fr.melanoxy.mareu.list.MaReuViewModel;
-import fr.melanoxy.mareu.utils.ViewModelFactory;
-import fr.melanoxy.mareu.viewpager.PageTransformer;
+import fr.melanoxy.mareu.ui.events.FragmentEvent;
+import fr.melanoxy.mareu.ui.list.MaReuViewModel;
+import fr.melanoxy.mareu.ui.utils.ViewModelFactory;
+import fr.melanoxy.mareu.ui.viewpager.MainPagerAdapter;
+import fr.melanoxy.mareu.ui.viewpager.PageTransformer;
 
 public class MaReuActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package fr.melanoxy.mareu.list;
+package fr.melanoxy.mareu.ui.list;
 
 import androidx.annotation.NonNull;
 

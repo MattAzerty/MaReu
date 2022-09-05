@@ -1,4 +1,4 @@
-package fr.melanoxy.mareu.newreu;
+package fr.melanoxy.mareu.ui.newreu;
 
 
 
@@ -13,8 +13,8 @@ import androidx.lifecycle.ViewModel;
 import java.util.Date;
 import java.util.Locale;
 
-import fr.melanoxy.mareu.events.SingleLiveEvent;
-import fr.melanoxy.mareu.repo.ReunionRepository;
+import fr.melanoxy.mareu.ui.events.SingleLiveEvent;
+import fr.melanoxy.mareu.data.ReunionRepository;
 
 public class NewReuViewModel extends ViewModel {
 

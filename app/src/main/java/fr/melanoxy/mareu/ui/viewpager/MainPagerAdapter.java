@@ -1,13 +1,13 @@
-package fr.melanoxy.mareu;
+package fr.melanoxy.mareu.ui.viewpager;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import fr.melanoxy.mareu.ViewPagerFraments.FilterPageFragment;
-import fr.melanoxy.mareu.ViewPagerFraments.ParamPageFragment;
-import fr.melanoxy.mareu.ViewPagerFraments.ReuPageFragment;
+import fr.melanoxy.mareu.ui.viewpager.ViewPagerFraments.FilterPageFragment;
+import fr.melanoxy.mareu.ui.viewpager.ViewPagerFraments.ParamPageFragment;
+import fr.melanoxy.mareu.ui.viewpager.ViewPagerFraments.ReuPageFragment;
 
 public class MainPagerAdapter extends FragmentStateAdapter {
 

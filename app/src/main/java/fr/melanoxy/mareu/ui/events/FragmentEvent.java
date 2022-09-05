@@ -1,4 +1,4 @@
-package fr.melanoxy.mareu.events;
+package fr.melanoxy.mareu.ui.events;
 
 public class FragmentEvent {
 

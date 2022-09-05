@@ -1,6 +1,5 @@
-package fr.melanoxy.mareu.viewpager;
+package fr.melanoxy.mareu.ui.viewpager;
 
-import android.graphics.Color;
 import android.view.View;
 
 import androidx.viewpager2.widget.ViewPager2;

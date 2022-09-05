@@ -1,4 +1,4 @@
-package fr.melanoxy.mareu.list;
+package fr.melanoxy.mareu.ui.list;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
