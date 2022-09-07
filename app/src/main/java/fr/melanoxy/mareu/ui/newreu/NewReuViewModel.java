@@ -124,7 +124,7 @@ public class NewReuViewModel extends ViewModel {
         String input = people.toLowerCase(Locale.ROOT).trim();
         // 1=error
         int duplicateError = (previousEntry.contains(input)) ? 1 : 0;
-        int syntaxError = (!(input.contains("@lamzone.com"))) ? 1 : 0;
+        int syntaxError = (!(input.endsWith("@lamzone.com"))) ? 1 : 0;
 
 
         if (syntaxError == 0 && duplicateError == 0) {

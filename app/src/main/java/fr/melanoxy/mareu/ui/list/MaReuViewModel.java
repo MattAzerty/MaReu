@@ -25,7 +25,7 @@ public class MaReuViewModel extends ViewModel {
     private final MediatorLiveData<List<ReunionsViewStateItem>> myMediatorLiveData = new MediatorLiveData<>();
 
     //InfoFilter to get number of result from filterfragment
-    private String initInfoFilter ="";
+    private String initInfoFilter = "";
     private final MutableLiveData<String> infoFilterMutableLiveData = new MutableLiveData<>(initInfoFilter);
 
     public MaReuViewModel(@NonNull ReunionRepository reunionRepository) {
@@ -76,7 +76,8 @@ public class MaReuViewModel extends ViewModel {
 
         }
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");  ;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
+        ;
         String strDate = dateFormat.format(date);
 
         // Filter reunion with parameters
@@ -109,7 +110,8 @@ public class MaReuViewModel extends ViewModel {
             @Nullable String room
     ) {
         List<Reunion> filteredReunions = new ArrayList<>();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");  ;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
+        ;
         String strDate = dateFormat.format(date);
 
 
@@ -119,34 +121,35 @@ public class MaReuViewModel extends ViewModel {
 
         for (Reunion reunion : reunions) {
 
-            switch(type){
+            switch (type) {
 
                 case 0://No filter
                     filteredReunions.add(reunion);
                     break;
 
                 case 1://Date filter
-                    if(reunion.getDate().contains(strDate)){
+                    if (reunion.getDate().contains(strDate)) {
                         filteredReunions.add(reunion);
                     }
                     break;
 
                 case 2://Room filter
-                    if(reunion.getPlace().contains(room)){
+                    if (reunion.getPlace().contains(room)) {
                         filteredReunions.add(reunion);
                     }
                     break;
 
                 case 3://Date and Room filter
-                    if(reunion.getPlace().contains(room) && reunion.getDate().contains(strDate)){
+                    if (reunion.getPlace().contains(room) && reunion.getDate().contains(strDate)) {
                         filteredReunions.add(reunion);
-                    break;
+                        break;
 
+                    }
             }
-        }}
+        }
 
         Integer numberOfEntryFound = filteredReunions.size();
-        infoFilterMutableLiveData.setValue("- "+numberOfEntryFound.toString()+" résultat(s) trouvé(s) -");
+        infoFilterMutableLiveData.setValue("- " + numberOfEntryFound.toString() + " résultat(s) trouvé(s) -");
         return filteredReunions;
     }
 
@@ -157,9 +160,9 @@ public class MaReuViewModel extends ViewModel {
     private ReunionsViewStateItem mapReunion(@NonNull Reunion reunion) {
         return new ReunionsViewStateItem(
                 reunion.getId(),
-                reunion.getSubject()+" - "+reunion.getDate()+" - "+reunion.getPlace(),
+                reunion.getSubject() + " - " + reunion.getDate() + " - " + reunion.getPlace(),
                 reunion.getPeople()
-                    );
+        );
     }
 
 
@@ -182,7 +185,6 @@ public class MaReuViewModel extends ViewModel {
     public void onClearReunionsClicked() {
         reunionRepository.clearReunion();
     }
-
 
 
 }//END

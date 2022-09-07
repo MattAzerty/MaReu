@@ -137,13 +137,11 @@ public class ReunionRepository {
     }
 
 
-    public LiveData<Reunion> getNeighbourLiveData(long reunionId) {
-        // We use a Transformation here so whenever the neighboursLiveData changes, the underlying lambda will be called too, and
-        // the Neighbour will be re-emitted (with potentially new information like isFavorite set to true or false)
+    public LiveData<Reunion> getReunionByIDLiveData(long reunionId) {
 
-        // This Transformation transforms a List of Neighbours into a Neighbour (matched by its ID)
         return Transformations.map(reunionsLiveData, reunions -> {
             for (Reunion reunion : reunions) {
+                reunion.getId();
                 if (reunion.getId() == reunionId) {
                     return reunion;
                 }
@@ -151,12 +149,23 @@ public class ReunionRepository {
 
             return null;
         });
+
+        /*List<Reunion> reunions = reunionsLiveData.getValue();
+
+        for (Iterator<Reunion> iterator = reunions.iterator(); iterator.hasNext(); ) {
+            Reunion reunion = iterator.next();
+
+            if (reunion.getId() == reunionId) {
+                return reunion;
+        }
+    }
+        return null;*/
     }
 
     public void clearReunion(){
-        //reunionsLiveData.setValue(null);
+        reunionsLiveData.setValue(new ArrayList<>());
 
-        List<Reunion> reunions = reunionsLiveData.getValue();
+        /*List<Reunion> reunions = reunionsLiveData.getValue();
 
         if (reunions == null) return;
 
@@ -167,7 +176,7 @@ public class ReunionRepository {
 
         }
 
-        reunionsLiveData.setValue(reunions);
+        reunionsLiveData.setValue(reunions);*/
 
             }
 
