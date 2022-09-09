@@ -82,7 +82,7 @@ public class NewReuActivity extends AppCompatActivity {
 
                 DialogFragment dialog = new DialogFragment();
                 dialog.show(getFragmentManager(),
-                        "MyCustomDialog");
+                        "AddAPeopleDialogFragment");
 
             }
         });
