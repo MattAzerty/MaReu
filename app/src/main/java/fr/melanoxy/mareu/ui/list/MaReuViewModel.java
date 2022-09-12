@@ -1,5 +1,7 @@
 package fr.melanoxy.mareu.ui.list;
 
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
@@ -11,6 +13,7 @@ import androidx.lifecycle.ViewModel;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -101,6 +104,14 @@ public class MaReuViewModel extends ViewModel {
     public LiveData<String> getInfoFilterLiveData() {
         return infoFilterMutableLiveData;
     }
+    //TODO:1
+    public LiveData<Date> getFilterDateLiveData() {
+        return reunionRepository.getFilterDateLiveData();
+    }
+
+    public LiveData<Integer> getFilterTypeLiveData() {
+        return reunionRepository.getFilterTypeLiveData();
+    }
 
     @NonNull
     private List<Reunion> getFilteredReunions(
@@ -170,7 +181,12 @@ public class MaReuViewModel extends ViewModel {
         reunionRepository.filterType(type);
     }
 
-    public void onFilterDateChanged(Date date) {
+    public void onFilterDateChanged(Date date, TextView year) {//TODO:2
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int newYear = Integer.parseInt(year.getText().toString());
+        cal.set(Calendar.YEAR, newYear);
+        date= cal.getTime();
         reunionRepository.filterDate(date);
     }
 

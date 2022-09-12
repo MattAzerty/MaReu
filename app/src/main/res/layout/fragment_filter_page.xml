@@ -196,13 +196,21 @@
                     android:layout_height="100dp"
                     android:layout_below="@+id/date"
                     android:background="@drawable/shape_textview"
+                    android:padding="8dp"
                     app:picker_curved="true"
+                    app:picker_displayDaysOfMonth="true"
+                    app:picker_displayDays="false"
+                    app:picker_displayMonth="true"
                     app:picker_curvedMaxAngle="45"
                     app:picker_stepSizeMinutes="10"
                     app:picker_cyclic="true"
-                    app:picker_itemSpacing="22dp"
+                    app:picker_textAlign="center"
+                    app:picker_textSize="20sp"
+                    app:picker_selectorHeight="60dp"
+                    app:picker_itemSpacing="12dp"
+                    app:picker_mustBeOnFuture="false"
                     app:picker_selectedTextColor="#FFAB40"
-                    app:picker_selectorColor="@color/colorPrimary"
+                    app:picker_selectorColor="#004688F2"
                     app:picker_visibleItemCount="2" />
 
                 <TextView

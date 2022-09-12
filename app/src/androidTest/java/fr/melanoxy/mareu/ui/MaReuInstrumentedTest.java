@@ -27,12 +27,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.DatePicker;
+import android.widget.NumberPicker;
 import android.widget.SeekBar;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.DataInteraction;
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.PickerActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -43,6 +46,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
+import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -67,6 +71,7 @@ import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.*;
 
 import static fr.melanoxy.mareu.utils.SeekBarProgressAction.setProgress;
+import static fr.melanoxy.mareu.utils.YearSelectorAction.setYear;
 
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 
@@ -91,7 +96,7 @@ import fr.melanoxy.mareu.utils.SingleDateAndTimePickerAction;
 public class MaReuInstrumentedTest {
 
     private MaReuActivity mActivity;
-    private int resId = R.id.reunions_rv;
+    private final int resId = R.id.reunions_rv;
     private Date cstDate = new Date();
     Calendar calendar = Calendar.getInstance();
 
@@ -99,15 +104,6 @@ public class MaReuInstrumentedTest {
     @Rule
     //Start activity
     public ActivityScenarioRule<MaReuActivity> activityScenarioRule = new ActivityScenarioRule<>(MaReuActivity.class);
-    /*public ActivityTestRule<MaReuActivity> mActivityRule =
-            new ActivityTestRule(MaReuActivity.class,true);*/
-
-    @Before
-    public void setUp() {
-        /*mActivity = mActivityRule.getActivity();
-        assertThat(mActivity, notNullValue());*/
-        //ActivityScenario scenario = rule.getScenario();
-    }
 
 
     /**
@@ -115,7 +111,7 @@ public class MaReuInstrumentedTest {
      */
     @Test
     public void myReunionList_shouldNotBeEmpty() {
-        // First scroll to the position that needs to be matched and click on it.
+
         onView(withId(R.id.reunions_rv))
                 .check(matches(hasMinimumChildCount(3)));
     }
@@ -157,6 +153,7 @@ public class MaReuInstrumentedTest {
     // Add a new reu with specific infos then check if all is working
     @Test
     public void Add_a_new_reu_is_working() {
+
         calendar.setTime(cstDate);
         //set to next month
         calendar.add(Calendar.MONTH, 1);
@@ -165,7 +162,7 @@ public class MaReuInstrumentedTest {
         DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
         String strDate = dateFormat.format(cstDate);
 
-
+//Check ini reu
         onView(withId(R.id.reunions_rv))
                 .check(matches(hasMinimumChildCount(3)));
 
@@ -273,6 +270,10 @@ public class MaReuInstrumentedTest {
     @Test
     public void filter_a_reu_on_date_is_working() {
 
+        //Set REuA Date (month is -1 on wheel picker)
+        calendar.set(2022,00, 01, 2, 30, 00);
+        Date dateReuA = calendar.getTime();
+
         //Check if default reunions are here
         onView(withId(R.id.reunions_rv))
                 .check(matches(hasMinimumChildCount(3)));
@@ -288,30 +289,203 @@ public class MaReuInstrumentedTest {
                         isDisplayed()));
         actionMenuItemView.perform(click());
 
+
+
+        //Put date for REUA
+
+        ViewInteraction linearLayout = onView(
+                allOf(withId(R.id.single_day_picker),
+                        withParent(allOf(withId(R.id.relativeLayout),
+                                withParent(IsInstanceOf.<View>instanceOf(android.widget.ScrollView.class)))),
+                        isDisplayed()));
+        linearLayout.check(matches(isDisplayed()));
+        linearLayout.perform(SingleDateAndTimePickerAction.setDate(dateReuA));
+        linearLayout.perform(ViewActions.swipeUp());
+        linearLayout.perform(ViewActions.swipeDown());
+
+
         //Set filter type to date
         ViewInteraction seekBar = onView(
                 allOf(withId(R.id.sb),
                         withParent(allOf(withId(R.id.relativeLayout),
-                                withParent(IsInstanceOf.<View>instanceOf(android.widget.ScrollView.class)))),
+                                withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class)))),
                         isDisplayed()));
         seekBar.check(matches(isDisplayed()));
         seekBar.perform(setProgress(1));
 
-        //Put date for REUA
 
+        //click on filter toolbar button
+        ViewInteraction actionMenuItemView2 = onView(
+                allOf(withId(R.id.filter), withContentDescription("Filter"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.toolbar),
+                                        0),
+                                0),
+                        isDisplayed()));
+        actionMenuItemView2.perform(click());
 
         //Check if default reunions are here
         onView(withId(R.id.reunions_rv))
-                .check(matches(hasMinimumChildCount(0)));
+                .check(matches(hasMinimumChildCount(1)));
+
+        onView(new RecyclerViewMatcher(this.resId)
+                .atPositionOnView(0, R.id.reunions_item_tv_fieldTop))
+                .check(matches(withText("Réunion A - 14h00 [2022.01.01] - Soleil")));
 
 
     }
 
 
+    @Test
+    public void filter_a_reu_on_place_is_working() {
+
+        //click on filter toolbar button
+        ViewInteraction actionMenuItemView = onView(
+                allOf(withId(R.id.filter), withContentDescription("Filter"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.toolbar),
+                                        0),
+                                0),
+                        isDisplayed()));
+        actionMenuItemView.perform(click());
+
+        //Set filter type to place
+        ViewInteraction seekBar = onView(
+                allOf(withId(R.id.sb),
+                        withParent(allOf(withId(R.id.relativeLayout),
+                                withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class)))),
+                        isDisplayed()));
+        seekBar.check(matches(isDisplayed()));
+        seekBar.perform(setProgress(2));
+
+        //Select room Etoile in order to filter ReuB
+        ViewInteraction appCompatSpinner = onView(
+                allOf(withId(R.id.spinner_room),
+                        childAtPosition(
+                                allOf(withId(R.id.relativeLayout),
+                                        childAtPosition(
+                                                withClassName(is("android.widget.ScrollView")),
+                                                0)),
+                                10)));
+        appCompatSpinner.perform(scrollTo(), click());
+
+        DataInteraction materialTextView = onData(anything())
+                .inAdapterView(childAtPosition(
+                        withClassName(is("android.widget.PopupWindow$PopupBackgroundView")),
+                        0))
+                .atPosition(1);
+        materialTextView.perform(click());
 
 
+        //click on filter toolbar button
+        ViewInteraction actionMenuItemView2 = onView(
+                allOf(withId(R.id.filter), withContentDescription("Filter"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.toolbar),
+                                        0),
+                                0),
+                        isDisplayed()));
+        actionMenuItemView2.perform(click());
+
+        //Check if there is only one reunion
+        onView(withId(R.id.reunions_rv))
+                .check(matches(hasMinimumChildCount(1)));
+
+        // and if it the right one
+        onView(new RecyclerViewMatcher(this.resId)
+                .atPositionOnView(0, R.id.reunions_item_tv_fieldTop))
+                .check(matches(withText("Réunion B - 08h00 [2022.02.02] - Etoile")));
+
+
+    }
+
+    @Test
+    public void filter_a_reu_on_date_and_place_is_working() {
+
+        //Set REuC Date (month is -1 on wheel picker)
+        calendar.set(2022,02, 03, 2, 30, 00);
+        Date dateReuC = calendar.getTime();
+
+
+        //click on filter toolbar button
+        ViewInteraction actionMenuItemView = onView(
+                allOf(withId(R.id.filter), withContentDescription("Filter"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.toolbar),
+                                        0),
+                                0),
+                        isDisplayed()));
+        actionMenuItemView.perform(click());
+
+        //Set filter type to both
+        ViewInteraction seekBar = onView(
+                allOf(withId(R.id.sb),
+                        withParent(allOf(withId(R.id.relativeLayout),
+                                withParent(IsInstanceOf.instanceOf(android.widget.ScrollView.class)))),
+                        isDisplayed()));
+        seekBar.check(matches(isDisplayed()));
+        seekBar.perform(setProgress(3));
+
+        //Select room Etoile in order to filter ReuC (TODO)
+        ViewInteraction appCompatSpinner = onView(
+                allOf(withId(R.id.spinner_room),
+                        childAtPosition(
+                                allOf(withId(R.id.relativeLayout),
+                                        childAtPosition(
+                                                withClassName(is("android.widget.ScrollView")),
+                                                0)),
+                                10)));
+        appCompatSpinner.perform(scrollTo(), click());
+
+        DataInteraction materialTextView = onData(anything())
+                .inAdapterView(childAtPosition(
+                        withClassName(is("android.widget.PopupWindow$PopupBackgroundView")),
+                        0))
+                .atPosition(2);
+        materialTextView.perform(click());
+
+        //Put date for REUC
+        ViewInteraction linearLayout = onView(
+                allOf(withId(R.id.single_day_picker),
+                        withParent(allOf(withId(R.id.relativeLayout),
+                                withParent(IsInstanceOf.<View>instanceOf(android.widget.ScrollView.class)))),
+                        isDisplayed()));
+        linearLayout.check(matches(isDisplayed()));
+        linearLayout.perform(SingleDateAndTimePickerAction.setDate(dateReuC));
+        linearLayout.perform(ViewActions.swipeUp());
+        linearLayout.perform(ViewActions.swipeDown());
+
+
+
+        //click on filter toolbar button
+        ViewInteraction actionMenuItemView2 = onView(
+                allOf(withId(R.id.filter), withContentDescription("Filter"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.toolbar),
+                                        0),
+                                0),
+                        isDisplayed()));
+        actionMenuItemView2.perform(click());
+
+        //Check if there is only one reunion
+        onView(withId(R.id.reunions_rv))
+                .check(matches(hasMinimumChildCount(1)));
+
+        // and if it the right one
+        onView(new RecyclerViewMatcher(this.resId)
+                .atPositionOnView(0, R.id.reunions_item_tv_fieldTop))
+                .check(matches(withText("Réunion C - 08h00 [2022.03.03] - Lune")));
+
+
+    }
 
 // END of tests
+
 
     public class RecyclerViewMatcher {
 
@@ -336,7 +510,7 @@ public class MaReuInstrumentedTest {
                             idDescription = this.resources.getResourceName(recyclerViewId);
                         } catch (Resources.NotFoundException var4) {
                             idDescription = String.format("%s (resource name not found)",
-                                    new Object[] {Integer.valueOf(recyclerViewId) });
+                                    Integer.valueOf(recyclerViewId));
                         }
                     }
                     description.appendText("with id: " + idDescription);
@@ -345,7 +519,7 @@ public class MaReuInstrumentedTest {
                 public boolean matchesSafely(View view) {
                     this.resources = view.getResources();
                     if (childView == null) {
-                        RecyclerView recyclerView = (RecyclerView) view.getRootView().findViewById(recyclerViewId);
+                        RecyclerView recyclerView = view.getRootView().findViewById(recyclerViewId);
                         if (recyclerView != null && recyclerView.getId() == recyclerViewId) {
                             childView = recyclerView.findViewHolderForAdapterPosition(position).itemView;
                         } else {

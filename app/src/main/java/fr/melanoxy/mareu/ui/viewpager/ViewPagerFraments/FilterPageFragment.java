@@ -105,14 +105,16 @@ public class FilterPageFragment extends Fragment {
                 //Toast.makeText(getContext(), String.valueOf(progress), Toast.LENGTH_LONG).show();
             }
         });
+
+        viewModel.getFilterTypeLiveData().observe(getViewLifecycleOwner(), type -> binding.sb.setProgress(type));
     }
 
     private void bindFilterDate(MaReuViewModel viewModel) {
 
-        SingleDateAndTimePicker.OnDateChangedListener changeListener = (displayed, date) -> viewModel.onFilterDateChanged(date);
+        SingleDateAndTimePicker.OnDateChangedListener changeListener = (displayed, date) -> viewModel.onFilterDateChanged(date, binding.year);
         binding.singleDayPicker.addOnDateChangedListener(changeListener);
 
-        //viewModel.getDateLiveData().observe(this, date -> mNewReuBinding.newReuSingleDayPicker.setDefaultDate(date));
+        //viewModel.getFilterDateLiveData().observe(getViewLifecycleOwner(), date -> binding.singleDayPicker.setDefaultDate(date));
     }
 
     private void bindFilterRoom(MaReuViewModel viewModel) {
@@ -163,6 +165,7 @@ public class FilterPageFragment extends Fragment {
                     public void onValueChange(NumberPicker numberPicker, int i, int i2) {
 
                         binding.year.setText(Integer.toString(i2));
+                        viewModel.onFilterDateChanged(binding.singleDayPicker.getDate(), binding.year);
 
                     }
                 });
