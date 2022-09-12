@@ -20,6 +20,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.Matchers.allOf;
 
 import android.content.res.Resources;
@@ -189,21 +190,9 @@ public class MaReuInstrumentedTest {
         textInputEditText.perform(replaceText("TEST_NEW_REU"), closeSoftKeyboard());
 
 //Put Saturn room on the spinner
-        ViewInteraction appCompatSpinner = onView(
-                allOf(withId(R.id.new_reu_spinner_place),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.RelativeLayout")),
-                                        0),
-                                5)));
-        appCompatSpinner.perform(scrollTo(), click());
 
-        DataInteraction materialTextView = onData(anything())
-                .inAdapterView(childAtPosition(
-                        withClassName(is("android.widget.PopupWindow$PopupBackgroundView")),
-                        0))
-                .atPosition(8);
-        materialTextView.perform(click());
+        onView(withId(R.id.new_reu_spinner_place)).perform(click());
+        onData(allOf(is(instanceOf(String.class)), is("Saturn"))).perform(click());
 
         //Set a date on the singleDateAndTimePicker
 
@@ -361,22 +350,8 @@ public class MaReuInstrumentedTest {
         seekBar.perform(setProgress(2));
 
         //Select room Etoile in order to filter ReuB
-        ViewInteraction appCompatSpinner = onView(
-                allOf(withId(R.id.spinner_room),
-                        childAtPosition(
-                                allOf(withId(R.id.relativeLayout),
-                                        childAtPosition(
-                                                withClassName(is("android.widget.ScrollView")),
-                                                0)),
-                                10)));
-        appCompatSpinner.perform(scrollTo(), click());
-
-        DataInteraction materialTextView = onData(anything())
-                .inAdapterView(childAtPosition(
-                        withClassName(is("android.widget.PopupWindow$PopupBackgroundView")),
-                        0))
-                .atPosition(1);
-        materialTextView.perform(click());
+        onView(withId(R.id.spinner_room)).perform(click());
+        onData(allOf(is(instanceOf(String.class)), is("Etoile"))).perform(click());
 
 
         //click on filter toolbar button
@@ -430,23 +405,9 @@ public class MaReuInstrumentedTest {
         seekBar.check(matches(isDisplayed()));
         seekBar.perform(setProgress(3));
 
-        //Select room Etoile in order to filter ReuC (TODO)
-        ViewInteraction appCompatSpinner = onView(
-                allOf(withId(R.id.spinner_room),
-                        childAtPosition(
-                                allOf(withId(R.id.relativeLayout),
-                                        childAtPosition(
-                                                withClassName(is("android.widget.ScrollView")),
-                                                0)),
-                                10)));
-        appCompatSpinner.perform(scrollTo(), click());
-
-        DataInteraction materialTextView = onData(anything())
-                .inAdapterView(childAtPosition(
-                        withClassName(is("android.widget.PopupWindow$PopupBackgroundView")),
-                        0))
-                .atPosition(2);
-        materialTextView.perform(click());
+        //Select room Lune in order to filter ReuC
+        onView(withId(R.id.spinner_room)).perform(click());
+        onData(allOf(is(instanceOf(String.class)), is("Lune"))).perform(click());
 
         //Put date for REUC
         ViewInteraction linearLayout = onView(
