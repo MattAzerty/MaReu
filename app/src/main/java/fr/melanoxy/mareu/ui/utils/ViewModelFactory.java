@@ -52,7 +52,7 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
                     MainApplication.getInstance(),
                     reunionRepository
             );*/
-        }else if (modelClass.isAssignableFrom(MaReuViewModel.class)) {
+        } else if (modelClass.isAssignableFrom(MaReuViewModel.class)) {
             return (T) new MaReuViewModel(
                     reunionRepository
             );

@@ -44,7 +44,6 @@ public class FilterPageFragment extends Fragment {
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -120,13 +119,12 @@ public class FilterPageFragment extends Fragment {
     private void bindFilterRoom(MaReuViewModel viewModel) {
 
         binding.spinnerRoom.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String room = parent.getItemAtPosition(position).toString(); //this is your selected item
                 viewModel.onFilterRoomChanged(room);
             }
-            public void onNothingSelected(AdapterView<?> parent)
-            {
+
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
@@ -156,8 +154,8 @@ public class FilterPageFragment extends Fragment {
                 monthPicker.setValue(cal.get(Calendar.MONTH) + 1);
 
                 int year = cal.get(Calendar.YEAR);
-                yearPicker.setMinValue(year-10);
-                yearPicker.setMaxValue(year+10);
+                yearPicker.setMinValue(year - 10);
+                yearPicker.setMaxValue(year + 10);
                 yearPicker.setValue(Integer.valueOf(binding.year.getText().toString()));
 
                 yearPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
@@ -183,7 +181,7 @@ public class FilterPageFragment extends Fragment {
 
                 // Using location, the PopupWindow will be displayed right under anchorView
                 popupWindow.showAtLocation(view, Gravity.NO_GRAVITY,
-                        location[1] +view.getLeft(), location[1] + view.getHeight());
+                        location[1] + view.getLeft(), location[1] + view.getHeight());
 
             }
 

@@ -12,33 +12,34 @@ import fr.melanoxy.mareu.ui.viewpager.ViewPagerFraments.ReuPageFragment;
 public class MainPagerAdapter extends FragmentStateAdapter {
 
 
-        // 1 - Array of colors that will be passed to PageFragment
-        private String[] titles;
+    // 1 - Array of colors that will be passed to PageFragment
+    private String[] titles;
 
-        // 2 - Default Constructor
-        public MainPagerAdapter(FragmentActivity fa, String[] titles) {
-            super(fa);
-            this.titles = titles;
+    // 2 - Default Constructor
+    public MainPagerAdapter(FragmentActivity fa, String[] titles) {
+        super(fa);
+        this.titles = titles;
+    }
+
+    @Override
+    public int getItemCount() {
+        return (2); // 3 - Number of page to show
+    }
+
+    @NonNull
+    @Override
+    public Fragment createFragment(int position) {
+
+        // 4 - Page to return
+        switch (position) {
+            case 0: //Page number 1
+                return ReuPageFragment.newInstance();
+            case 1: //Page number 2
+                return FilterPageFragment.newInstance();
+            case 2: //Page number 3
+                return ParamPageFragment.newInstance();
+            default:
+                return null;
         }
-
-        @Override
-        public int getItemCount() {
-            return(2); // 3 - Number of page to show
-        }
-
-        @NonNull
-        @Override
-        public Fragment createFragment(int position) {
-
-            // 4 - Page to return
-            switch (position){
-                case 0: //Page number 1
-                    return ReuPageFragment.newInstance();
-                case 1: //Page number 2
-                    return FilterPageFragment.newInstance();
-                case 2: //Page number 3
-                    return ParamPageFragment.newInstance();
-                default:
-                    return null;
-            }
-        }}
+    }
+}

@@ -67,7 +67,6 @@ public class MaReuActivity extends AppCompatActivity {
         setupDrawerContent(binding.navView);
 
 
-
 // Display an hamburger on the left side of the toolbar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_dehaze_white_24dp);
@@ -80,7 +79,7 @@ public class MaReuActivity extends AppCompatActivity {
                 toolbarBackground.getShapeAppearanceModel()
                         .toBuilder()
                         //.setBottomRightCorner(CornerFamily.ROUNDED,radius)
-                        .setBottomLeftCorner(CornerFamily.ROUNDED,radius)
+                        .setBottomLeftCorner(CornerFamily.ROUNDED, radius)
                         .build()
         );
 
@@ -131,7 +130,7 @@ public class MaReuActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
-       if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE || newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE || newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             EventBus.getDefault().post(new FragmentEvent(binding.activityMainViewpager.getCurrentItem()));
         }
 
@@ -145,17 +144,15 @@ public class MaReuActivity extends AppCompatActivity {
 
         // To show icons in the actionbar's overflow menu:
         //if(featureId == Window.FEATURE_ACTION_BAR && menu != null){
-        if(menu.getClass().getSimpleName().equals("MenuBuilder")){
-            try{
+        if (menu.getClass().getSimpleName().equals("MenuBuilder")) {
+            try {
                 Method m = menu.getClass().getDeclaredMethod(
                         "setOptionalIconsVisible", Boolean.TYPE);
                 m.setAccessible(true);
                 m.invoke(menu, true);
-            }
-            catch(NoSuchMethodException e){
+            } catch (NoSuchMethodException e) {
                 Log.e(TAG, "onMenuOpened", e);
-            }
-            catch(Exception e){
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
@@ -164,14 +161,13 @@ public class MaReuActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
 
         Log.d("MainActivity", "OnResume");
 
-    }
-
+    }*/
 
 
     @Override
@@ -182,9 +178,11 @@ public class MaReuActivity extends AppCompatActivity {
                 binding.drawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.filter:
-                    if (binding.activityMainViewpager.getCurrentItem() == 0) {
-                        binding.activityMainViewpager.setCurrentItem(1);
-                    }else{onBackPressed();}
+                if (binding.activityMainViewpager.getCurrentItem() == 0) {
+                    binding.activityMainViewpager.setCurrentItem(1);
+                } else {
+                    onBackPressed();
+                }
                 return true;
         }
 
@@ -192,9 +190,8 @@ public class MaReuActivity extends AppCompatActivity {
     }
 
 
-
     // Instantiate a ViewPager2 and a PagerAdapter
-    private void configureViewPagerAndTabs(){
+    private void configureViewPagerAndTabs() {
 
         String[] titles = getResources().getStringArray(R.array.Titles);
 
@@ -203,7 +200,7 @@ public class MaReuActivity extends AppCompatActivity {
 
         //Set Adapter PageAdapter and glue it together
         binding.activityMainViewpager.setAdapter(new MainPagerAdapter(this, getResources().getStringArray(R.array.Titles)));
-
+// set offscreen limit for fragment in viewPager (in order to show fragment filter without using the swipe)
         binding.activityMainViewpager.setOffscreenPageLimit(2);
 
         //Action depending of fragment selected
@@ -212,9 +209,9 @@ public class MaReuActivity extends AppCompatActivity {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels);
 
-               EventBus.getDefault().post(new FragmentEvent(position));
+                EventBus.getDefault().post(new FragmentEvent(position));
 
-                }
+            }
 
             @Override
             public void onPageSelected(int position) {
@@ -256,7 +253,7 @@ public class MaReuActivity extends AppCompatActivity {
         //Associating ViewModel with the Activity
         MaReuViewModel viewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(MaReuViewModel.class);
 
-        switch(menuItem.getItemId()) {
+        switch (menuItem.getItemId()) {
             case R.id.activity_main_drawer_news:
                 binding.activityMainViewpager.setCurrentItem(0);
                 break;

@@ -112,15 +112,6 @@ public class ReunionRepositoryTest {
         });
     }
 
-    @Test
-    public void filter_reunion_by_date() {
-        // When
-        addDefaultReunion(0);
-        addDefaultReunion(1);
-
-    }
-
-
 
 
     private void addDefaultReunion(long index) {

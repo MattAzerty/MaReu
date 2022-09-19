@@ -75,8 +75,6 @@ public class ReunionRepository {
     }
 
 
-
-
     public LiveData<List<Reunion>> getReunionsLiveData() {
         return reunionsLiveData;
     }
@@ -162,7 +160,7 @@ public class ReunionRepository {
         return null;*/
     }
 
-    public void clearReunion(){
+    public void clearReunion() {
         reunionsLiveData.setValue(new ArrayList<>());
 
         /*List<Reunion> reunions = reunionsLiveData.getValue();
@@ -178,7 +176,7 @@ public class ReunionRepository {
 
         reunionsLiveData.setValue(reunions);*/
 
-            }
+    }
 
     private void generateRandomReu() {
         addReunion(
@@ -201,4 +199,5 @@ public class ReunionRepository {
         );
 
 
-}}
+    }
+}

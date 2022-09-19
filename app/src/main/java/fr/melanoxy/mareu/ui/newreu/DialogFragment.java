@@ -49,8 +49,8 @@ public class DialogFragment extends android.app.DialogFragment {
         NewReuViewModel viewModel = new ViewModelProvider(mNewReuActivity).get(NewReuViewModel.class);
 
 
-        viewModel.getPeopleLiveData().observe(mNewReuActivity, people -> previousEntry=people);
-        viewModel.getErrorPeopleMutableLiveData().observe(mNewReuActivity, errorMessage -> errorField.setText(errorMessage) );
+        viewModel.getPeopleLiveData().observe(mNewReuActivity, people -> previousEntry = people);
+        viewModel.getErrorPeopleMutableLiveData().observe(mNewReuActivity, errorMessage -> errorField.setText(errorMessage));
         viewModel.getIsOkButtonEnabledMutableLiveData().observe(mNewReuActivity, status -> mActionOk.setVisibility(status));
         //Log.v("previousEntry", previousEntry);
 
@@ -87,9 +87,9 @@ public class DialogFragment extends android.app.DialogFragment {
                         String input = mInput.getText().toString().toLowerCase(Locale.ROOT).trim();
 
                         //Update livedata
-                            viewModel.onPeopleAdded(previousEntry, input);
-                            getDialog().dismiss();
-                        }
+                        viewModel.onPeopleAdded(previousEntry, input);
+                        getDialog().dismiss();
+                    }
 
                 });
 

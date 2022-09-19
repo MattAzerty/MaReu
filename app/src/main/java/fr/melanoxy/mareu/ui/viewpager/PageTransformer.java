@@ -4,7 +4,7 @@ import android.view.View;
 
 import androidx.viewpager2.widget.ViewPager2;
 
-public class PageTransformer implements ViewPager2.PageTransformer{
+public class PageTransformer implements ViewPager2.PageTransformer {
     private static final float MIN_SCALE = 0.92f;
 
     public void transformPage(View view, float position) {
@@ -24,11 +24,11 @@ public class PageTransformer implements ViewPager2.PageTransformer{
             view.setScaleX(scaleFactor);
             view.setScaleY(scaleFactor);
 
-        }else if (position == 0) { // [0]
+        } else if (position == 0) { // [0]
             view.setAlpha(1f);
             view.setTranslationZ(0f);
 
-        }else if (position > 0) { // [0,1]
+        } else if (position > 0) { // [0,1]
         } else { // (1,+Infinity]
             // This page is way off-screen to the right.
             view.setAlpha(1f);

@@ -1,8 +1,6 @@
 package fr.melanoxy.mareu.ui.newreu;
 
 
-
-
 import androidx.annotation.NonNull;
 
 import androidx.annotation.Nullable;
@@ -40,14 +38,12 @@ public class NewReuViewModel extends ViewModel {
     private final MutableLiveData<Integer> isOkButtonEnabledMutableLiveData = new MutableLiveData<>(8);
 
     //PEOPLE to get access from DialogFragment
-    private String initPeople ="nom1@entreprise.com;\nnom2@entreprise.com;\nnom3@entreprise.com;";
+    private String initPeople = "nom1@entreprise.com;\nnom2@entreprise.com;\nnom3@entreprise.com;";
     private final MutableLiveData<String> peopleMutableLiveData = new MutableLiveData<>(initPeople);
 
     //close activity SingleLiveEvent
     // Check https://medium.com/androiddevelopers/livedata-with-snackbar-navigation-and-other-events-the-singleliveevent-case-ac2622673150
     private final SingleLiveEvent<Void> closeActivitySingleLiveEvent = new SingleLiveEvent<>();
-
-
 
 
 //CONSTRUCTOR
@@ -95,9 +91,11 @@ public class NewReuViewModel extends ViewModel {
     //method called when dialogue is used
     public void onPeopleAdded(String peoples, String people) {
         String outPeople;
-        if(peoples.equals(initPeople)){
-            outPeople = people+";";
-        }else{outPeople = peoples+"\n"+people+";";}
+        if (peoples.equals(initPeople)) {
+            outPeople = people + ";";
+        } else {
+            outPeople = peoples + "\n" + people + ";";
+        }
         peopleMutableLiveData.setValue(outPeople);
     }
 

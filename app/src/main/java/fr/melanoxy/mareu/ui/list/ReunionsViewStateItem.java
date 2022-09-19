@@ -6,7 +6,7 @@ import java.util.Objects;
 
 /**
  * Le ViewState sert à représenter l'état de la vue.<br/>
- *
+ * <p>
  * Il contient toutes les données "dynamiques" de la vue ( = les données qui peuvent changer pendant l'utilisation de l'app)
  */
 

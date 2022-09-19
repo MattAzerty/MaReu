@@ -17,9 +17,9 @@ import fr.melanoxy.mareu.R;
  */
 public class ParamPageFragment extends Fragment {
 
-        public static ParamPageFragment newInstance() {
-            return (new ParamPageFragment());
-        }
+    public static ParamPageFragment newInstance() {
+        return (new ParamPageFragment());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

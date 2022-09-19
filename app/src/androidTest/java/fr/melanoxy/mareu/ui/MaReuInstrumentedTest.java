@@ -133,7 +133,7 @@ public class MaReuInstrumentedTest {
 
     // When we click on add a new reunion item the activity MaReuActivity is shown
     @Test
-    public void myNeighboursList_NewReuActivity_Started() {
+    public void fab_NewReuActivity_Started() {
         Intents.init();
 //Click on the fb
         ViewInteraction floatingActionButton = onView(

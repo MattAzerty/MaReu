@@ -95,7 +95,7 @@ public class ReuPageFragment extends Fragment {
         binding.reunionsRv.setClickable(false);
 
 
-        GradientDrawable backgroundGradient = (GradientDrawable)binding.fragmentReuPageRootview.getBackground();
+        GradientDrawable backgroundGradient = (GradientDrawable) binding.fragmentReuPageRootview.getBackground();
         backgroundGradient.setColor(getResources().getColor(R.color.colorPrimaryDark));
 
     }
@@ -105,7 +105,7 @@ public class ReuPageFragment extends Fragment {
         binding.reunionsRv.setClickable(true);
 
 
-        GradientDrawable backgroundGradient = (GradientDrawable)binding.fragmentReuPageRootview.getBackground();
+        GradientDrawable backgroundGradient = (GradientDrawable) binding.fragmentReuPageRootview.getBackground();
         backgroundGradient.setColor(getResources().getColor(R.color.white));
 
     }
@@ -131,12 +131,15 @@ public class ReuPageFragment extends Fragment {
 
     /**
      * Fired if the user clicks on a delete button
+     *
      * @param event
      */
     @Subscribe
     public void onPageScrolled(FragmentEvent event) {
-        if(event.position ==1) {
+        if (event.position == 1) {
             hide();
-        } else {unHide();}
+        } else {
+            unHide();
+        }
     }
 }

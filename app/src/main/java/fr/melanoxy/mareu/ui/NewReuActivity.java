@@ -29,7 +29,7 @@ public class NewReuActivity extends AppCompatActivity {
 
     // Initialize variables
     private ActivityNewReuBinding mNewReuBinding;
-    private String editedPeople ="";
+    private String editedPeople = "";
     private String initPeople = "nom1@entreprise.com;\nnom2@entreprise.com;\nnom3@entreprise.com;";
 
 
@@ -46,7 +46,7 @@ public class NewReuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_reu);
 
         getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|
+                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
                         View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
         //viewBinding
@@ -92,13 +92,13 @@ public class NewReuActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // get people input
-                String mAllPeople=mNewReuBinding.people.getEditableText().toString();
+                String mAllPeople = mNewReuBinding.people.getEditableText().toString();
 
-                if(mAllPeople.contains(initPeople)) {
+                if (mAllPeople.contains(initPeople)) {
                     editedPeople = "";
                     mNewReuBinding.people.setText(initPeople);
 
-                }else{
+                } else {
                     String[] people = mAllPeople.split("\n");
 
                     for (int i = 0; i < people.length - 1; i++) {
@@ -108,7 +108,8 @@ public class NewReuActivity extends AppCompatActivity {
                     mNewReuBinding.people.setText(editedPeople.trim());
 
                     editedPeople = "";
-                } }
+                }
+            }
         });
 
 
@@ -160,16 +161,17 @@ public class NewReuActivity extends AppCompatActivity {
         viewModel.getIsAddButtonEnabledLiveData().observe(this, isAddButtonEnabled -> mNewReuBinding.newReuAddReuButton.setEnabled(isAddButtonEnabled));
     }
 
-    private String getDateSelected(){
+    private String getDateSelected() {
 
         Date date = mNewReuBinding.newReuSingleDayPicker.getDate();
-        DateFormat dateFormat = new SimpleDateFormat("HH'h'mm '['yyyy.MM.dd']'");  ;
+        DateFormat dateFormat = new SimpleDateFormat("HH'h'mm '['yyyy.MM.dd']'");
+        ;
         String strDate = dateFormat.format(date);
         return strDate;
 
     }
 
-    private String getSelectedItem(){
+    private String getSelectedItem() {
 
         String state = mNewReuBinding.newReuSpinnerPlace.getSelectedItem().toString();
         return state;

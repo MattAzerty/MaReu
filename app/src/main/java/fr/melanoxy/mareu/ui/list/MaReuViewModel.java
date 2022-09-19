@@ -104,6 +104,7 @@ public class MaReuViewModel extends ViewModel {
     public LiveData<String> getInfoFilterLiveData() {
         return infoFilterMutableLiveData;
     }
+
     //TODO:1
     public LiveData<Date> getFilterDateLiveData() {
         return reunionRepository.getFilterDateLiveData();
@@ -186,7 +187,7 @@ public class MaReuViewModel extends ViewModel {
         cal.setTime(date);
         int newYear = Integer.parseInt(year.getText().toString());
         cal.set(Calendar.YEAR, newYear);
-        date= cal.getTime();
+        date = cal.getTime();
         reunionRepository.filterDate(date);
     }
 

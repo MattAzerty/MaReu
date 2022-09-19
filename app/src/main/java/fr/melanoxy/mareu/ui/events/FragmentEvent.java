@@ -6,6 +6,7 @@ public class FragmentEvent {
 
     /**
      * Constructor.
+     *
      * @param position
      */
     public FragmentEvent(int position) {
